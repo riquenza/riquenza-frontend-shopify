@@ -1,0 +1,167 @@
+{% doc %}
+  @prompt
+    i want to build a section with full width to just show an image
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-full-width-image-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ai-full-width-image__wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .ai-full-width-image__img-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: {{ block.settings.image_fit }};
+  }
+
+  {% if block.settings.custom_height_enabled %}
+    .ai-full-width-image__wrapper-{{ ai_gen_id }} {
+      height: {{ block.settings.desktop_height }}px;
+    }
+
+    @media screen and (max-width: 749px) {
+      .ai-full-width-image__wrapper-{{ ai_gen_id }} {
+        height: {{ block.settings.mobile_height }}px;
+      }
+    }
+  {% endif %}
+
+  .ai-full-width-image__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.desktop_height }}px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-full-width-image__placeholder-{{ ai_gen_id }} {
+      height: {{ block.settings.mobile_height }}px;
+    }
+  }
+
+  .ai-full-width-image__placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+  }
+
+  .ai-full-width-image__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+{% endstyle %}
+
+<div class="ai-full-width-image-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-full-width-image__wrapper-{{ ai_gen_id }}">
+    {% if block.settings.image %}
+      <img
+        src="{{ block.settings.image | image_url: width: 2400 }}"
+        alt="{{ block.settings.image.alt | escape }}"
+        loading="lazy"
+        width="{{ block.settings.image.width }}"
+        height="{{ block.settings.image.height }}"
+        class="ai-full-width-image__img-{{ ai_gen_id }}"
+      >
+    {% else %}
+      <div class="ai-full-width-image__placeholder-{{ ai_gen_id }}">
+        {{ 'image' | placeholder_svg_tag }}
+        <div class="ai-full-width-image__empty-state-{{ ai_gen_id }}">
+          Add an image to get started
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Full width image",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "fill",
+          "label": "Fill"
+        }
+      ],
+      "default": "cover",
+      "info": "Cover fills the space, contain fits the entire image, fill stretches to fit"
+    },
+    {
+      "type": "header",
+      "content": "Custom height"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_height_enabled",
+      "label": "Enable custom height",
+      "default": false,
+      "info": "Set a fixed height instead of using the image's natural aspect ratio"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop height",
+      "min": 200,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile height",
+      "min": 200,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "default": 400
+    }
+  ],
+  "presets": [
+    {
+      "name": "Full width image"
+    }
+  ]
+}
+{% endschema %}

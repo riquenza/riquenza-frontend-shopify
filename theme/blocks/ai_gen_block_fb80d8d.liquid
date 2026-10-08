@@ -1,0 +1,652 @@
+{% doc %}
+  @prompt
+    a collection with videos in instageam reel format with product title and add to cart buttom
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-reel-collection-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-reel-collection__container-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.gap }}px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0 {{ block.settings.side_padding }}px;
+  }
+
+  .ai-reel-collection__container-{{ ai_gen_id }}::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ai-reel-card-{{ ai_gen_id }} {
+    flex: 0 0 auto;
+    width: {{ block.settings.card_width }}px;
+    scroll-snap-align: start;
+    position: relative;
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+    background-color: {{ block.settings.card_background }};
+  }
+
+  .ai-reel-card__video-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    background-color: #000000;
+    overflow: hidden;
+  }
+
+  .ai-reel-card__video-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-reel-card__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-reel-card__placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-reel-card__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-reel-card__content-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: {{ block.settings.content_padding }}px;
+    background: linear-gradient(to top, rgba(0,0,0,{{ block.settings.overlay_opacity }}), transparent);
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-reel-card__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 600;
+    margin: 0 0 {{ block.settings.title_margin }}px;
+    line-height: 1.2;
+  }
+
+  .ai-reel-card__price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    margin-bottom: {{ block.settings.price_margin }}px;
+    font-weight: 500;
+  }
+
+  .ai-reel-card__button-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.button_padding }}px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-reel-card__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+    transform: translateY(-2px);
+  }
+
+  .ai-reel-card__play-button-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 2;
+  }
+
+  .ai-reel-card__play-button-{{ ai_gen_id }}:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .ai-reel-card__play-button-{{ ai_gen_id }}.hidden {
+    display: none;
+  }
+
+  .ai-reel-card__play-icon-{{ ai_gen_id }} {
+    width: 0;
+    height: 0;
+    border-left: 20px solid #000000;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    margin-left: 4px;
+  }
+
+  .ai-reel-card__pause-icon-{{ ai_gen_id }} {
+    display: flex;
+    gap: 4px;
+  }
+
+  .ai-reel-card__pause-icon-{{ ai_gen_id }} span {
+    width: 4px;
+    height: 20px;
+    background-color: #000000;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-reel-card-{{ ai_gen_id }} {
+      width: {{ block.settings.card_width_mobile }}px;
+    }
+
+    .ai-reel-collection__container-{{ ai_gen_id }} {
+      gap: {{ block.settings.gap_mobile }}px;
+      padding: 0 {{ block.settings.side_padding_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<reel-collection-{{ ai_gen_id }} class="ai-reel-collection-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-reel-collection__container-{{ ai_gen_id }}">
+    {% if block.settings.collection != blank %}
+      {% for product in block.settings.collection.products limit: block.settings.products_limit %}
+        <div class="ai-reel-card-{{ ai_gen_id }}" data-product-id="{{ product.id }}">
+          <div class="ai-reel-card__video-wrapper-{{ ai_gen_id }}">
+            {% if product.metafields.custom.video_url != blank %}
+              <video
+                class="ai-reel-card__video-{{ ai_gen_id }}"
+                src="{{ product.metafields.custom.video_url }}"
+                loop
+                muted
+                playsinline
+                preload="metadata"
+              ></video>
+              <button class="ai-reel-card__play-button-{{ ai_gen_id }}" aria-label="Play video">
+                <div class="ai-reel-card__play-icon-{{ ai_gen_id }}"></div>
+              </button>
+            {% elsif product.featured_media %}
+              {% if product.featured_media.media_type == 'video' %}
+                {{ product.featured_media | video_tag: autoplay: false, loop: true, muted: true, controls: false, class: 'ai-reel-card__video-' | append: ai_gen_id }}
+                <button class="ai-reel-card__play-button-{{ ai_gen_id }}" aria-label="Play video">
+                  <div class="ai-reel-card__play-icon-{{ ai_gen_id }}"></div>
+                </button>
+              {% else %}
+                <img
+                  src="{{ product.featured_media | image_url: width: 600 }}"
+                  alt="{{ product.featured_media.alt | escape }}"
+                  class="ai-reel-card__video-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="600"
+                  height="1067"
+                >
+              {% endif %}
+            {% else %}
+              <div class="ai-reel-card__placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+                <div class="ai-reel-card__empty-state-{{ ai_gen_id }}">
+                  Add a video to this product
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="ai-reel-card__content-{{ ai_gen_id }}">
+              <h3 class="ai-reel-card__title-{{ ai_gen_id }}">{{ product.title }}</h3>
+              <div class="ai-reel-card__price-{{ ai_gen_id }}">
+                {{ product.price | money }}
+              </div>
+              <button
+                class="ai-reel-card__button-{{ ai_gen_id }}"
+                data-product-id="{{ product.id }}"
+                data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+              >
+                {{ block.settings.button_text }}
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      {% for i in (1..3) %}
+        <div class="ai-reel-card-{{ ai_gen_id }}">
+          <div class="ai-reel-card__video-wrapper-{{ ai_gen_id }}">
+            <div class="ai-reel-card__placeholder-{{ ai_gen_id }}">
+              {{ 'product-1' | placeholder_svg_tag }}
+              <div class="ai-reel-card__empty-state-{{ ai_gen_id }}">
+                Next, select a collection
+              </div>
+            </div>
+            <div class="ai-reel-card__content-{{ ai_gen_id }}">
+              <h3 class="ai-reel-card__title-{{ ai_gen_id }}">Product Title</h3>
+              <div class="ai-reel-card__price-{{ ai_gen_id }}">₹0.00</div>
+              <button class="ai-reel-card__button-{{ ai_gen_id }}">
+                {{ block.settings.button_text }}
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</reel-collection-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ReelCollection{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.videos = this.querySelectorAll('.ai-reel-card__video-{{ ai_gen_id }}');
+        this.playButtons = this.querySelectorAll('.ai-reel-card__play-button-{{ ai_gen_id }}');
+        this.addToCartButtons = this.querySelectorAll('.ai-reel-card__button-{{ ai_gen_id }}');
+        
+        this.setupVideoControls();
+        this.setupAddToCart();
+        this.setupIntersectionObserver();
+      }
+
+      setupVideoControls() {
+        this.playButtons.forEach((button, index) => {
+          const video = this.videos[index];
+          if (!video || video.tagName !== 'VIDEO') return;
+
+          button.addEventListener('click', () => {
+            if (video.paused) {
+              video.play();
+              button.querySelector('.ai-reel-card__play-icon-{{ ai_gen_id }}').style.display = 'none';
+              const pauseIcon = document.createElement('div');
+              pauseIcon.className = 'ai-reel-card__pause-icon-{{ ai_gen_id }}';
+              pauseIcon.innerHTML = '<span></span><span></span>';
+              button.appendChild(pauseIcon);
+            } else {
+              video.pause();
+              const pauseIcon = button.querySelector('.ai-reel-card__pause-icon-{{ ai_gen_id }}');
+              if (pauseIcon) pauseIcon.remove();
+              button.querySelector('.ai-reel-card__play-icon-{{ ai_gen_id }}').style.display = 'block';
+            }
+          });
+
+          video.addEventListener('click', () => {
+            button.click();
+          });
+        });
+      }
+
+      setupAddToCart() {
+        this.addToCartButtons.forEach((button) => {
+          button.addEventListener('click', (e) => {
+            const variantId = button.dataset.variantId;
+            if (!variantId) return;
+
+            const formData = {
+              items: [{
+                id: variantId,
+                quantity: 1
+              }]
+            };
+
+            fetch('/cart/add.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+              const originalText = button.textContent;
+              button.textContent = 'Added!';
+              button.style.backgroundColor = '#008060';
+              
+              setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '';
+              }, 2000);
+
+              window.dispatchEvent(new Event('cart:refresh'));
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+          });
+        });
+      }
+
+      setupIntersectionObserver() {
+        const options = {
+          root: null,
+          threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            const video = entry.target.querySelector('.ai-reel-card__video-{{ ai_gen_id }}');
+            if (!video || video.tagName !== 'VIDEO') return;
+
+            if (entry.isIntersecting) {
+              video.play();
+              const button = entry.target.querySelector('.ai-reel-card__play-button-{{ ai_gen_id }}');
+              if (button) {
+                const playIcon = button.querySelector('.ai-reel-card__play-icon-{{ ai_gen_id }}');
+                if (playIcon) playIcon.style.display = 'none';
+                let pauseIcon = button.querySelector('.ai-reel-card__pause-icon-{{ ai_gen_id }}');
+                if (!pauseIcon) {
+                  pauseIcon = document.createElement('div');
+                  pauseIcon.className = 'ai-reel-card__pause-icon-{{ ai_gen_id }}';
+                  pauseIcon.innerHTML = '<span></span><span></span>';
+                  button.appendChild(pauseIcon);
+                }
+              }
+            } else {
+              video.pause();
+            }
+          });
+        }, options);
+
+        const cards = this.querySelectorAll('.ai-reel-card-{{ ai_gen_id }}');
+        cards.forEach(card => observer.observe(card));
+      }
+    }
+
+    customElements.define('reel-collection-{{ ai_gen_id }}', ReelCollection{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Reel collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Products to show",
+      "min": 3,
+      "max": 20,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "paragraph",
+      "content": "Add videos to products using a custom metafield 'custom.video_url' or use product media videos"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "card_width",
+      "label": "Card width",
+      "min": 200,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card width on mobile",
+      "min": 200,
+      "max": 350,
+      "step": 10,
+      "unit": "px",
+      "default": 280
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between cards",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Gap on mobile",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "side_padding",
+      "label": "Side padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "side_padding_mobile",
+      "label": "Side padding on mobile",
+      "min": 0,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content padding",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.7
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "title_margin",
+      "label": "Title margin",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "label": "Price size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "price_margin",
+      "label": "Price margin",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "button_padding",
+      "label": "Button padding",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reel collection"
+    }
+  ]
+}
+{% endschema %}

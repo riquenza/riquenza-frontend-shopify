@@ -2,7 +2,7 @@
 
 This repo holds your **Online Store theme** as files you edit locally: Liquid, CSS, JavaScript, and JSON templates. Shopify CLI syncs those files with a store.
 
-The theme source lives in [`theme/`](theme/) (Shopify [Skeleton](https://github.com/Shopify/skeleton-theme) starter).
+The theme source lives in [`theme/`](theme/). The **Horizon** theme in `theme/` was pulled from the live **Riquenza** store (`riquenza.myshopify.com`, theme `gid://shopify/OnlineStoreTheme/187869921353`) via the Shopify connector and Admin GraphQL, replacing the earlier Skeleton starter.
 
 ## Prerequisites
 
