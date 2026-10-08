@@ -1,0 +1,22 @@
+{
+  "name": "shopify-theme-code",
+  "version": "1.0.0",
+  "description": "Local Shopify Online Store theme (Liquid) with Shopify CLI",
+  "private": true,
+  "scripts": {
+    "theme:dev": "shopify theme dev --path theme",
+    "theme:pull": "shopify theme pull --path theme",
+    "theme:push": "shopify theme push --path theme",
+    "theme:check": "shopify theme check --path theme"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://origin.cursor.com/git/anurag-gupta/tmp-52e9707de074d578.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@shopify/cli": "^4.9.0"
+  }
+}
