@@ -1,0 +1,87 @@
+<section class="riq-reviews" id="riq-pdp-reviews">
+  {% render 'riq-section-head',
+    eyebrow: section.settings.eyebrow,
+    heading: section.settings.heading,
+    subheading: section.settings.subheading
+  %}
+  <div class="riq-carousel__track scrollbar-hide">
+    <div class="riq-reviews__track">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign name = block.settings.name
+          assign parts = name | split: ' '
+          assign initials = parts.first | slice: 0
+          if parts.size > 1
+            assign last = parts.last | slice: 0
+            assign initials = initials | append: last
+          endif
+        -%}
+        <article class="riq-review" {{ block.shopify_attributes }}>
+          <span class="riq-review__quote" aria-hidden="true">“</span>
+          <div class="riq-review__user">
+            <span class="riq-review__avatar">{{ initials | upcase }}</span>
+            <div>
+              <h3 class="riq-review__name">{{ name }} {% render 'riq-icon', name: 'BsPatchCheckFill', size: '16' %}</h3>
+              <p class="riq-review__verified">VERIFIED BUYER</p>
+            </div>
+          </div>
+          <div class="riq-review__stars" aria-label="5 out of 5 stars">
+            {%- for i in (1..5) -%}{% render 'riq-icon', name: 'FaStar', size: '16' %}{%- endfor -%}
+          </div>
+          <h4 class="riq-review__title">{{ block.settings.title }}</h4>
+          <p class="riq-review__body">{{ block.settings.description }}</p>
+          <div class="riq-review__rule"></div>
+          <div class="riq-review__rec">
+            {%- if block.settings.product != blank -%}
+              <a class="riq-review__thumb" href="{{ block.settings.product.url }}">
+                {%- if block.settings.product.featured_image -%}
+                  <img src="{{ block.settings.product.featured_image | image_url: width: 112 }}" alt="{{ block.settings.product.title | escape }}" width="56" height="56">
+                {%- endif -%}
+              </a>
+              <div>
+                <p class="riq-review__verified">Recommends</p>
+                <a class="riq-review__shop" href="{{ block.settings.product.url }}">Shop Now {% render 'riq-icon', name: 'FaArrowRight', size: '10' %}</a>
+              </div>
+            {%- elsif block.settings.image_url != blank -%}
+              <span class="riq-review__thumb"><img src="{{ block.settings.image_url }}" alt="" width="56" height="56"></span>
+              <div>
+                <p class="riq-review__verified">Recommends</p>
+                {%- if block.settings.product_url != blank -%}
+                  <a class="riq-review__shop" href="{{ block.settings.product_url }}">Shop Now {% render 'riq-icon', name: 'FaArrowRight', size: '10' %}</a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Riquenza reviews",
+  "tag": "section",
+  "class": "riq-section-reviews",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Loved by our community" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Feels Good Stories" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Honest experiences from real Riquenza customers." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Review" },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "image_url", "label": "Fallback image URL" },
+        { "type": "url", "id": "product_url", "label": "Fallback product URL" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Riquenza reviews" }]
+}
+{% endschema %}

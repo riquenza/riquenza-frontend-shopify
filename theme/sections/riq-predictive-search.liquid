@@ -1,0 +1,29 @@
+{%- if predictive_search.performed -%}
+  <div data-riq-predictive-results>
+    {%- if predictive_search.resources.products.size > 0 -%}
+      {%- for product in predictive_search.resources.products limit: 5 -%}
+        <a class="riq-search__result" href="{{ product.url }}" data-riq-close="search">
+          {%- if product.featured_image -%}
+            <img src="{{ product.featured_image | image_url: width: 112 }}" alt="{{ product.title | escape }}" width="56" height="56">
+          {%- endif -%}
+          <div>
+            <p class="riq-line__title">{{ product.title }}</p>
+            <p class="riq-line__meta">{{ product.price | money }}</p>
+          </div>
+        </a>
+      {%- endfor -%}
+      <a href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&type=product" class="riq-btn riq-btn--full" style="margin:12px" data-riq-close="search">
+        View all results {% render 'riq-icon', name: 'FaArrowRight', size: '12' %}
+      </a>
+    {%- else -%}
+      <p style="padding:16px;color:rgba(76,67,57,.7)">No products found for “{{ predictive_search.terms }}”.</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Predictive search",
+  "settings": []
+}
+{% endschema %}

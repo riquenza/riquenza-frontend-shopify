@@ -1,0 +1,83 @@
+{%- comment -%}
+  Params: product (current product to exclude)
+{%- endcomment -%}
+{%- liquid
+  assign upsell_collection = collections['best-sellers']
+  if upsell_collection == blank
+    assign upsell_collection = collections.all
+  endif
+  assign pick_count = 0
+-%}
+{%- for item in upsell_collection.products limit: 4 -%}
+  {%- if item.id != product.id -%}
+    {%- assign pick_count = pick_count | plus: 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if pick_count > 0 -%}
+  <div class="riq-pdp-upsell" data-riq-pdp-upsell>
+    <h3 class="riq-pdp-upsell__title">Complete your routine</h3>
+    <div class="riq-pdp-upsell__track scrollbar-hide" data-riq-pdp-upsell-track>
+      {%- assign shown = 0 -%}
+      {%- for item in upsell_collection.products -%}
+        {%- if item.id == product.id -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- if shown >= 3 -%}
+          {%- break -%}
+        {%- endif -%}
+        {%- assign shown = shown | plus: 1 -%}
+        {%- liquid
+          assign v = item.selected_or_first_available_variant
+          assign compare = v.compare_at_price
+          assign price = v.price
+          assign discount = 0
+          if compare > price and compare > 0
+            assign discount = compare | minus: price | times: 100.0 | divided_by: compare | round
+          endif
+          assign rating_value = 0
+          if item.metafields.reviews.rating.value != blank
+            assign rating_value = item.metafields.reviews.rating.value.rating | default: item.metafields.reviews.rating.value
+          endif
+        -%}
+        <article class="riq-pdp-upsell-card">
+          <a href="{{ item.url }}" class="riq-pdp-upsell-card__media">
+            {%- if item.featured_image -%}
+              <img src="{{ item.featured_image | image_url: width: 200 }}" alt="{{ item.title | escape }}" width="96" height="96" loading="lazy">
+            {%- endif -%}
+          </a>
+          <div class="riq-pdp-upsell-card__body">
+            <a href="{{ item.url }}" class="riq-pdp-upsell-card__name">{{ item.title }}</a>
+            {%- if rating_value > 0 -%}
+              <div class="riq-pdp-upsell-card__stars">
+                {%- for i in (1..5) -%}
+                  <span class="{% if i > rating_value %}is-dim{% endif %}">{% render 'riq-icon', name: 'AiFillStar', size: '10' %}</span>
+                {%- endfor -%}
+                <span class="riq-pdp-upsell-card__rating">{{ rating_value | round: 1 }}</span>
+              </div>
+            {%- endif -%}
+            <div class="riq-pdp-upsell-card__price">
+              <span class="riq-pdp-upsell-card__current">{{ price | money }}</span>
+              {%- if compare > price -%}<s>{{ compare | money }}</s>{%- endif -%}
+              {%- if discount > 0 -%}<span class="riq-pdp-upsell-card__off">{{ discount }}% OFF</span>{%- endif -%}
+            </div>
+            {%- if v.available -%}
+              <form method="post" action="{{ routes.cart_add_url }}" data-riq-add-to-cart>
+                <input type="hidden" name="id" value="{{ v.id }}">
+                <button type="submit" class="riq-pdp-upsell-card__atc">Add to cart</button>
+              </form>
+            {%- else -%}
+              <button type="button" class="riq-pdp-upsell-card__atc" disabled>Out of stock</button>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+    {%- if shown > 1 -%}
+      <div class="riq-pdp-upsell__nav">
+        <button type="button" class="riq-pdp-upsell__arrow" data-riq-upsell-scroll="prev" aria-label="Previous">{% render 'riq-icon', name: 'HiChevronLeft', size: '10' %}</button>
+        <div class="riq-pdp-upsell__dots" data-riq-pdp-upsell-dots></div>
+        <button type="button" class="riq-pdp-upsell__arrow" data-riq-upsell-scroll="next" aria-label="Next">{% render 'riq-icon', name: 'HiChevronRight', size: '10' %}</button>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

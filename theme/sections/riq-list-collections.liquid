@@ -1,0 +1,32 @@
+<section class="riq-shop">
+  <div class="riq-shop__inner">
+    <h1 class="font-playfair" style="font-size:36px;margin:0 0 32px">Shop</h1>
+    <ul class="riq-shop__grid">
+      {%- for col in collections -%}
+        {%- unless col.handle == 'frontpage' -%}
+          <li>
+            <a href="{{ col.url }}" class="riq-combo">
+              <div class="riq-combo__media">
+                {%- if col.featured_image -%}
+                  <img src="{{ col.featured_image | image_url: width: 800 }}" alt="{{ col.title | escape }}" width="400" height="400">
+                {%- endif -%}
+              </div>
+              <div class="riq-combo__body">
+                <h2 class="riq-combo__title">{{ col.title }}</h2>
+              </div>
+            </a>
+          </li>
+        {%- endunless -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Riquenza collections",
+  "tag": "section",
+  "class": "riq-section-list-collections",
+  "settings": []
+}
+{% endschema %}

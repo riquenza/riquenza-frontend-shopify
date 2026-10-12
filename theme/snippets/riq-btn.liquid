@@ -1,0 +1,11 @@
+{%- if url != blank -%}
+  <a href="{{ url }}" class="riq-btn {{ class }}">
+    <span>{{ label }}</span>
+    {% render 'riq-icon', name: 'FaArrowRightLong', size: '14' %}
+  </a>
+{%- else -%}
+  <button type="{{ type | default: 'button' }}" class="riq-btn {{ class }}">
+    <span>{{ label }}</span>
+    {% render 'riq-icon', name: 'FaArrowRightLong', size: '14' %}
+  </button>
+{%- endif -%}

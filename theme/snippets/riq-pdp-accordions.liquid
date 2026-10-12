@@ -1,0 +1,121 @@
+{%- liquid
+  assign details_metafield = product.metafields.custom.product_details
+  assign ingredients_metafield = product.metafields.custom.ingredients
+  assign category_ingredients = product.metafields.shopify['constitutive-ingredients']
+  assign how_metafield = product.metafields.custom.how_to_use
+-%}
+<div class="riq-pdp-accordions" data-riq-pdp-accordions>
+  <div class="riq-pdp-accordions__list">
+    <section class="riq-pdp-accordion">
+      <h3>
+        <button type="button" class="riq-pdp-accordion__trigger" data-riq-pdp-accordion-trigger aria-expanded="true" aria-controls="riq-pdp-panel-details">
+          <span class="riq-pdp-accordion__icon">{% render 'riq-icon', name: 'PiNotepadDuotone', size: '22' %}</span>
+          <span class="riq-pdp-accordion__labels">
+            <span class="riq-pdp-accordion__title">Product Details</span>
+            <span class="riq-pdp-accordion__sub">What makes this formula special</span>
+          </span>
+          {% render 'riq-icon', name: 'FaChevronDown', size: '14', class: 'riq-pdp-accordion__chev' %}
+        </button>
+      </h3>
+      <div id="riq-pdp-panel-details" class="riq-pdp-accordion__panel">
+        <div class="riq-pdp-accordion__content riq-pdp-accordion__content--rte">
+          {%- if details_metafield != blank -%}
+            {{ details_metafield | metafield_tag }}
+          {%- elsif product.description != blank -%}
+            {{ product.description }}
+          {%- endif -%}
+        </div>
+      </div>
+    </section>
+
+    <section class="riq-pdp-accordion">
+      <h3>
+        <button type="button" class="riq-pdp-accordion__trigger" data-riq-pdp-accordion-trigger aria-expanded="false" aria-controls="riq-pdp-panel-ingredients">
+          <span class="riq-pdp-accordion__icon">{% render 'riq-icon', name: 'PiPlantDuotone', size: '22' %}</span>
+          <span class="riq-pdp-accordion__labels">
+            <span class="riq-pdp-accordion__title">Ingredients</span>
+            <span class="riq-pdp-accordion__sub">Clean &amp; transparent</span>
+          </span>
+          {% render 'riq-icon', name: 'FaChevronDown', size: '14', class: 'riq-pdp-accordion__chev' %}
+        </button>
+      </h3>
+      <div id="riq-pdp-panel-ingredients" class="riq-pdp-accordion__panel" hidden>
+        <div class="riq-pdp-accordion__content riq-pdp-accordion__content--rte">
+          {%- if ingredients_metafield != blank -%}
+            {{ ingredients_metafield | metafield_tag }}
+          {%- elsif category_ingredients != blank -%}
+            <p class="riq-pdp-accordion__lede">Key actives from our formula profile:</p>
+            <div class="riq-pdp-accordion__pills">
+              {% render 'riq-shopify-metafield-pills', metafield: category_ingredients %}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </section>
+
+    {%- capture riq_line_break -%}
+{%- endcapture -%}
+    {%- liquid
+      assign how_type = how_metafield.type
+      assign how_is_list = false
+      if how_type contains 'list.'
+        assign how_is_list = true
+        assign how_steps = how_metafield.value
+      endif
+
+      assign how_is_html = false
+      unless how_is_list
+        assign how_plain = how_metafield.value | default: how_metafield
+        assign how_lines = how_plain | strip | split: riq_line_break
+        if how_plain contains '<p>' or how_plain contains '<li>' or how_plain contains '<div>'
+          assign how_is_html = true
+        endif
+      endunless
+    -%}
+    <section class="riq-pdp-accordion">
+      <h3>
+        <button type="button" class="riq-pdp-accordion__trigger" data-riq-pdp-accordion-trigger aria-expanded="false" aria-controls="riq-pdp-panel-how">
+          <span class="riq-pdp-accordion__icon">{% render 'riq-icon', name: 'PiSparkleDuotone', size: '22' %}</span>
+          <span class="riq-pdp-accordion__labels">
+            <span class="riq-pdp-accordion__title">How to Use</span>
+            <span class="riq-pdp-accordion__sub">Your step-by-step routine</span>
+          </span>
+          {% render 'riq-icon', name: 'FaChevronDown', size: '14', class: 'riq-pdp-accordion__chev' %}
+        </button>
+      </h3>
+      <div id="riq-pdp-panel-how" class="riq-pdp-accordion__panel" hidden>
+        <div class="riq-pdp-accordion__content{% if how_is_html %} riq-pdp-accordion__content--rte{% endif %}">
+          {%- if how_metafield != blank -%}
+            {%- if how_is_list -%}
+              <ol class="riq-pdp-steps">
+                {%- for step in how_steps -%}
+                  {%- assign step_text = step.value | default: step | strip -%}
+                  {%- if step_text != blank -%}
+                    <li>
+                      <span class="riq-pdp-steps__num">{{ forloop.index }}</span>
+                      <p>{{ step_text }}</p>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ol>
+            {%- elsif how_is_html -%}
+              {{ how_metafield | metafield_tag }}
+            {%- else -%}
+              <ol class="riq-pdp-steps">
+                {%- for line in how_lines -%}
+                  {%- assign step = line | strip -%}
+                  {%- if step != blank -%}
+                    <li>
+                      <span class="riq-pdp-steps__num">{{ forloop.index }}</span>
+                      <p>{{ step }}</p>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ol>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

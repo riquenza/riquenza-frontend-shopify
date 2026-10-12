@@ -1,0 +1,53 @@
+<section class="riq-cart-page">
+  <h1>Your Cart</h1>
+  {%- if cart.item_count == 0 -%}
+    <div class="riq-drawer__empty">
+      <div class="riq-drawer__empty-icon">{% render 'riq-icon', name: 'FaShoppingBag', size: '28' %}</div>
+      <h2 class="font-playfair" style="font-size:24px">Your cart is empty</h2>
+      <p>Treat your skin to something luxurious. Explore our bestsellers.</p>
+      {%- assign shop_url = collections['skin-care'].url | default: routes.all_products_collection_url -%}
+      {% render 'riq-btn', label: 'Continue Shopping', url: shop_url %}
+    </div>
+  {%- else -%}
+    <div class="riq-cart-page__grid">
+      <div>
+        {%- for item in cart.items -%}
+          <div class="riq-line">
+            <a href="{{ item.url }}">{% if item.image %}<img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.title | escape }}" width="80" height="80">{% endif %}</a>
+            <div style="flex:1">
+              <p class="riq-line__title">{{ item.product.title }}</p>
+              {%- unless item.product.has_only_default_variant -%}<p class="riq-line__meta">{{ item.variant.title }}</p>{%- endunless -%}
+              <div class="riq-line__qty" style="margin-top:12px">
+                <button type="button" data-riq-line-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | minus: 1 }}">−</button>
+                <span>{{ item.quantity }}</span>
+                <button type="button" data-riq-line-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | plus: 1 }}">+</button>
+              </div>
+            </div>
+            <strong>{{ item.final_line_price | money }}</strong>
+          </div>
+        {%- endfor -%}
+      </div>
+      <aside class="riq-summary">
+        <h2>Order summary</h2>
+        <div class="riq-summary__row"><span>Subtotal</span><span>{{ cart.items_subtotal_price | money }}</span></div>
+        <div class="riq-summary__row"><span>Shipping</span><span>FREE</span></div>
+        <div class="riq-summary__row riq-summary__total"><span>Total</span><span>{{ cart.total_price | money }}</span></div>
+        <a href="{{ routes.checkout_url }}" class="riq-btn riq-btn--solid riq-btn--full" style="margin-top:20px">Checkout {% render 'riq-icon', name: 'FaLock', size: '12' %}</a>
+        <div class="riq-footer__trust" style="justify-content:center;margin-top:16px">
+          <span>{% render 'riq-icon', name: 'FaLock', size: '11' %} Secure Payment</span>
+          <span>{% render 'riq-icon', name: 'FaTruck', size: '11' %} Assured Delivery</span>
+          <span>{% render 'riq-icon', name: 'FaCheckCircle', size: '11' %} 100% Authentic</span>
+        </div>
+      </aside>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Riquenza cart",
+  "tag": "section",
+  "class": "riq-section-cart",
+  "settings": []
+}
+{% endschema %}

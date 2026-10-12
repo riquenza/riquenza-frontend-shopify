@@ -1,0 +1,93 @@
+<footer class="riq-footer">
+  <div>
+    <div class="riq-footer__grid">
+      <div>
+        <img class="riq-footer__logo" src="{{ 'riq-logo2.svg' | asset_url }}" alt="Riquenza" width="150" height="40">
+        <div class="riq-footer__copy">
+          <p>Riquenza is a skincare brand by Fabulous Mom Pvt. Ltd., combining advanced Korean skincare science with high-performance ingredients like PDRN and Collagen to support healthy, radiant, youthful-looking skin.</p>
+          <p>We believe in graceful aging, delivering visible results through effective, science-backed skincare you can trust.</p>
+          <p><strong>Graceful Aging. Visible Results. Trusted Science.</strong></p>
+        </div>
+      </div>
+      <div>
+        <div class="riq-footer__cols">
+          <div>
+            <h4>Shop</h4>
+            <ul>
+              <li><a href="{{ collections['skin-care'].url | default: routes.all_products_collection_url }}">Collections</a></li>
+              <li><a href="{{ collections['best-sellers'].url | default: routes.all_products_collection_url }}">Best Sellers</a></li>
+              <li><a href="{{ collections['combos'].url | default: routes.all_products_collection_url }}">Kits & Combos</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Help</h4>
+            <ul>
+              <li><a href="{{ routes.account_url }}">My Account</a></li>
+              <li><a href="{{ pages['contact-us'].url | default: pages.contact.url }}">Contact Us</a></li>
+              <li><a href="{{ pages['contact-us'].url | default: pages.contact.url }}#faq">FAQs</a></li>
+              <li><a href="{{ pages['cancellation-and-refund'].url | default: shop.refund_policy.url }}">Return Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="riq-footer__acc" data-riq-accordion-group="single">
+          <div>
+            <button class="riq-footer__acc-btn" type="button" data-riq-accordion-trigger aria-expanded="false" aria-controls="riq-acc-shop">
+              Shop
+              <span>+</span>
+            </button>
+            <ul id="riq-acc-shop" class="riq-footer__acc-panel" hidden>
+              <li><a href="{{ collections['skin-care'].url | default: routes.all_products_collection_url }}">Collections</a></li>
+              <li><a href="{{ collections['best-sellers'].url | default: routes.all_products_collection_url }}">Best Sellers</a></li>
+              <li><a href="{{ collections['combos'].url | default: routes.all_products_collection_url }}">Kits & Combos</a></li>
+            </ul>
+          </div>
+          <div>
+            <button class="riq-footer__acc-btn" type="button" data-riq-accordion-trigger aria-expanded="false" aria-controls="riq-acc-help" style="border-bottom:1px solid rgba(76,67,57,.25)">
+              Help
+              <span>+</span>
+            </button>
+            <ul id="riq-acc-help" class="riq-footer__acc-panel" hidden>
+              <li><a href="{{ routes.account_url }}">My Account</a></li>
+              <li><a href="{{ pages['contact-us'].url | default: pages.contact.url }}">Contact Us</a></li>
+              <li><a href="{{ pages['contact-us'].url | default: pages.contact.url }}#faq">FAQs</a></li>
+              <li><a href="{{ pages['cancellation-and-refund'].url | default: shop.refund_policy.url }}">Return Policy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="riq-footer__trust">
+      <span>{% render 'riq-icon', name: 'FaLock', size: '12' %} Secure Payment</span>
+      <span>{% render 'riq-icon', name: 'FaTruck', size: '12' %} Assured Delivery</span>
+      <span>{% render 'riq-icon', name: 'FaCheckCircle', size: '12' %} 100% Authentic</span>
+    </div>
+
+    <div class="riq-footer__bottom">
+      <div>
+        <div class="riq-footer__policies">
+          <a href="{{ pages['shipping-policy'].url | default: shop.shipping_policy.url }}">Shipping Policy</a>
+          <a href="{{ pages['cancellation-and-refund'].url | default: shop.refund_policy.url }}">Return Policy</a>
+          <a href="{{ pages['terms-of-service'].url | default: shop.terms_of_service.url }}">Terms Of Service</a>
+          <a href="{{ pages['privacy-policy'].url | default: shop.privacy_policy.url }}">Privacy Policy</a>
+          <a href="{{ pages['contact-us'].url | default: pages.contact.url }}">Contact Us</a>
+        </div>
+        <div class="riq-footer__legal">© {{ 'now' | date: '%Y' }} riquenza. All rights reserved. | Shine in every layer</div>
+      </div>
+      <div class="riq-footer__social">
+        <a href="https://www.facebook.com/61581595981529" aria-label="Facebook"><img src="{{ 'riq-facebook.svg' | asset_url }}" alt="facebook"></a>
+        <a href="https://www.linkedin.com/company/riquenza" aria-label="LinkedIn"><img src="{{ 'riq-linkedin.svg' | asset_url }}" alt="LinkedIn" width="28" height="28"></a>
+        <a href="https://www.instagram.com/riquenzaskincare" aria-label="Instagram"><img src="{{ 'riq-instagram.svg' | asset_url }}" alt="instagram"></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Riquenza footer",
+  "class": "riq-section-footer",
+  "enabled_on": { "groups": ["footer"] },
+  "settings": []
+}
+{% endschema %}

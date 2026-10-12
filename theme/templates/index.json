@@ -8,1119 +8,361 @@
  * ------------------------------------------------------------
  */
 {
+  "layout": "riquenza",
   "sections": {
-    "hero_jVaWmY": {
-      "type": "hero",
-      "name": "t:names.hero",
-      "settings": {
-        "media_type_1": "image",
-        "image_1": "shopify://shop_images/sunscreen_Website_Banner.png",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": true,
-        "media_type_1_mobile": "image",
-        "image_1_mobile": "shopify://shop_images/sunscreen_Website_Banner_Phone.png",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "full-width",
-        "section_height": "auto",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-6",
-        "toggle_overlay": false,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
-    "product_list_fa6P9H": {
-      "type": "product-list",
+    "riq_hero": {
+      "type": "riq-hero",
       "blocks": {
-        "static-header": {
-          "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
+        "slide_1": {
+          "type": "slide",
           "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_list_text_YFtzcL": {
-              "type": "_product-list-text",
-              "name": "t:names.collection_title",
-              "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "center",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_list_button_MWeP9V": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
-              "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_button_MWeP9V"
-          ]
+            "mobile_asset": "riq-hero_icons-founder_all_product_website_banner_phone.webp",
+            "desktop_asset": "riq-hero_icons-founder_all_product_website_banner.webp",
+            "alt": "Founder all products",
+            "link": "shopify://collections/combos",
+            "desktop_width": 1920,
+            "desktop_height": 640
+          }
         },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
+        "slide_2": {
+          "type": "slide",
           "settings": {
-            "product_card_gap": 4,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_677WP3": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_YXxMTj": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_JQzVV4": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-foreground)",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "price_JQzVV4"
-          ]
-        }
-      },
-      "name": "Featured collection",
-      "settings": {
-        "collection": "all",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
-        "columns": 4,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 48
-      }
-    },
-    "177459279572cffcc6": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_2dcdc7a_Gd8X9h": {
-          "type": "ai_gen_block_2dcdc7a",
-          "settings": {
-            "image": "shopify://shop_images/website_Banner.png",
-            "image_fit": "cover",
-            "custom_height_enabled": false,
-            "desktop_height": 300,
-            "mobile_height": 400
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_2dcdc7a_Gd8X9h"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "full-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
-    "collection_list_jn47fJ": {
-      "type": "collection-list",
-      "blocks": {
-        "group_cjP3jM": {
-          "type": "group",
-          "name": "t:names.header",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
+            "mobile_asset": "riq-hero_icons-sunscreen_website_banner_phone.webp",
+            "desktop_asset": "riq-hero_icons-sunscreen_website_banner.webp",
+            "alt": "Cica Aqua Light Sunscreen",
             "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "text_pqcadK": {
-              "type": "text",
-              "name": "t:names.text",
-              "settings": {
-                "text": "<h3>Shop by collection</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 16,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_pqcadK"
-          ]
+            "desktop_width": 1440,
+            "desktop_height": 480
+          }
         },
-        "static-collection-card": {
-          "type": "_collection-card",
-          "name": "t:names.collection_card",
-          "static": true,
+        "slide_3": {
+          "type": "slide",
           "settings": {
-            "placement": "below_image",
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "collection_card_gap": 8,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0
-          },
-          "blocks": {
-            "collection_title_WUQ6CV": {
-              "type": "collection-title",
-              "name": "t:names.collection_title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "collection-card-image": {
-              "type": "_collection-card-image",
-              "name": "t:names.collection_card_image",
-              "static": true,
-              "settings": {
-                "image_ratio": "adapt",
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "collection_title_WUQ6CV"
-          ]
-        }
-      },
-      "block_order": [
-        "group_cjP3jM"
-      ],
-      "name": "t:names.collections_carousel",
-      "settings": {
-        "collection_list": [],
-        "layout_type": "carousel",
-        "carousel_on_mobile": false,
-        "columns": 3,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "bento_gap": 8,
-        "rows_gap": 8,
-        "max_collections": 4,
-        "icons_style": "arrow",
-        "icons_shape": "circle",
-        "section_width": "page-width",
-        "gap": 12,
-        "color_scheme": "",
-        "padding-block-start": 48,
-        "padding-block-end": 48
-      }
-    },
-    "blocks_D6Tp3m": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_2dcdc7a_T4F46f": {
-          "type": "ai_gen_block_2dcdc7a",
-          "settings": {
-            "image": "shopify://shop_images/Dermatologist_Website_Banner.jpg",
-            "image_fit": "cover",
-            "custom_height_enabled": false,
-            "desktop_height": 600,
-            "mobile_height": 400
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_2dcdc7a_T4F46f"
-      ],
-      "name": "Full width image",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "full-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
-    "177459354554aa282a": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_fb80d8d_NyEVW4": {
-          "type": "ai_gen_block_fb80d8d",
-          "settings": {
-            "collection": "",
-            "products_limit": 10,
-            "desktop_width_percent": 100,
-            "card_width": 300,
-            "card_width_mobile": 280,
-            "gap": 15,
-            "gap_mobile": 10,
-            "side_padding": 20,
-            "side_padding_mobile": 15,
-            "section_padding": 40,
-            "border_radius": 12,
-            "card_background": "#000000",
-            "content_padding": 20,
-            "overlay_opacity": 0.7,
-            "text_color": "#ffffff",
-            "title_size": 18,
-            "title_margin": 8,
-            "price_size": 16,
-            "price_margin": 12,
-            "button_text": "Add to Cart",
-            "button_background": "#ffffff",
-            "button_hover_background": "#f0f0f0",
-            "button_text_color": "#000000",
-            "button_padding": 12,
-            "button_border_radius": 8,
-            "button_font_size": 14
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_fb80d8d_NyEVW4"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
-    "17745945883c706e55": {
-      "type": "_blocks",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
-    "section_K7MPfa": {
-      "type": "section",
-      "blocks": {
-        "group_9gVUye": {
-          "type": "group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 16,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
+            "mobile_asset": "riq-hero_icons-founder_cleanser_website_image_phone.webp",
+            "desktop_asset": "riq-hero_icons-founder_cleanser_website_image.webp",
+            "alt": "Hyaluronic Collagen Cleanser",
             "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "icon_NfVNAW": {
-              "type": "icon",
-              "settings": {
-                "icon": "eye",
-                "width": 32,
-                "link": "",
-                "open_in_new_tab": false
-              },
-              "blocks": {}
-            },
-            "group_6kEJCb": {
-              "type": "group",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 4,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_cMrXGi": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<h2>Intentional design</h2>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "center",
-                    "type_preset": "h3",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_FpRwJq": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Everything we do starts with why</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "center",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_cMrXGi",
-                "text_FpRwJq"
-              ]
-            }
-          },
-          "block_order": [
-            "icon_NfVNAW",
-            "group_6kEJCb"
-          ]
+            "desktop_width": 1440,
+            "desktop_height": 480
+          }
         },
-        "group_FdRby3": {
-          "type": "group",
+        "slide_4": {
+          "type": "slide",
           "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 16,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
+            "mobile_asset": "riq-hero_icons-toner_founder_website_banner_phone.webp",
+            "desktop_asset": "riq-hero_icons-toner_website_banner.webp",
+            "alt": "Peptide Collagen Toner",
             "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "icon_a8faAX": {
-              "type": "icon",
-              "settings": {
-                "icon": "heart",
-                "width": 32,
-                "link": "",
-                "open_in_new_tab": false
-              },
-              "blocks": {}
-            },
-            "group_YdLDdE": {
-              "type": "group",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 4,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_XmqHXg": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<h2>Made with care</h2>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "center",
-                    "type_preset": "h3",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_JR8ymN": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>We believe in building better</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "center",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_XmqHXg",
-                "text_JR8ymN"
-              ]
-            }
-          },
-          "block_order": [
-            "icon_a8faAX",
-            "group_YdLDdE"
-          ]
+            "desktop_width": 1920,
+            "desktop_height": 640
+          }
         },
-        "group_P6KAak": {
-          "type": "group",
+        "slide_5": {
+          "type": "slide",
           "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 16,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
+            "mobile_asset": "riq-hero_icons-serum-website-banner-2-phone-size-copy.webp",
+            "desktop_asset": "riq-hero_icons-serum-website-banner-2-copy.webp",
+            "alt": "PDRN Collagen Boost Serum",
             "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "icon_4WUC6G": {
-              "type": "icon",
-              "settings": {
-                "icon": "silhouette",
-                "width": 32,
-                "link": "",
-                "open_in_new_tab": false
-              },
-              "blocks": {}
-            },
-            "group_GQmfMB": {
-              "type": "group",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 4,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "text_fQBWtG": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<h2>A team with a goal</h2>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "center",
-                    "type_preset": "h3",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_JBaBNP": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Real people making great products</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "center",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_fQBWtG",
-                "text_JBaBNP"
-              ]
-            }
-          },
-          "block_order": [
-            "icon_4WUC6G",
-            "group_GQmfMB"
-          ]
+            "desktop_width": 1920,
+            "desktop_height": 640
+          }
+        },
+        "slide_6": {
+          "type": "slide",
+          "settings": {
+            "mobile_asset": "riq-hero_icons-founder_moisturiser_website_banner_phone.webp",
+            "desktop_asset": "riq-hero_icons-founder_moisturiser_website_banner.webp",
+            "alt": "PDRN Collagen Boost Moisturiser",
+            "link": "",
+            "desktop_width": 1920,
+            "desktop_height": 640
+          }
+        },
+        "slide_7": {
+          "type": "slide",
+          "settings": {
+            "mobile_asset": "riq-hero_icons-lip-balm-website-banner-phone-size.webp",
+            "desktop_asset": "riq-hero_icons-lip-balm-website-banner.webp",
+            "alt": "Lip Butter",
+            "link": "",
+            "desktop_width": 1440,
+            "desktop_height": 480
+          }
         }
       },
       "block_order": [
-        "group_9gVUye",
-        "group_FdRby3",
-        "group_P6KAak"
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4",
+        "slide_5",
+        "slide_6",
+        "slide_7"
       ],
-      "name": "t:names.icons_with_text",
       "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 16,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "autoplay_delay": 4000
       }
     },
-    "blocks_iQpcTr": {
-      "type": "_blocks",
-      "name": "Full width image",
+    "riq_products": {
+      "type": "riq-product-carousel",
       "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "collection": "best-sellers",
+        "eyebrow": "Most Loved",
+        "heading": "Bestselling Beauty",
+        "subheading": "Customer favourites chosen again and again — skin-first formulas with results you can feel.",
+        "products_to_show": 8,
+        "cta_label": "View Best Sellers",
+        "cta_url": "shopify://collections/best-sellers"
+      }
+    },
+    "riq_combos": {
+      "type": "riq-combo-slider",
+      "settings": {
+        "collection": "combos",
+        "eyebrow": "Curated Routines",
+        "heading": "Routines & Combo Kits",
+        "subheading": "Expert-crafted combinations for visible results — save more when you shop the complete routine.",
+        "badge_label": "Combo",
+        "products_to_show": 8,
+        "cta_label": "View Kits & Combos",
+        "cta_url": "shopify://collections/combos"
+      }
+    },
+    "riq_reels": {
+      "type": "riq-media-reel",
+      "blocks": {
+        "reel_1": {
+          "type": "reel",
+          "settings": {
+            "video_url": "https://riquenza-product-asset.s3.ap-south-1.amazonaws.com/ugc-videos/sunscreen.mp4",
+            "thumbnail_url": "https://dofbk408howyc.cloudfront.net/products/1763285545421_388562.jpg",
+            "title": "Cica Aqua Light Sunscreen (SPF 50 PA+++)",
+            "views": "15.2K",
+            "product": ""
+          }
+        },
+        "reel_4": {
+          "type": "reel",
+          "settings": {
+            "video_url": "https://riquenza-product-asset.s3.ap-south-1.amazonaws.com/ugc-videos/Did+you+know+collagen+starts+declining+in+your+20s+%F0%9F%93%89+It%E2%80%99s+not+just+hype%E2%80%94it%E2%80%99s+biology.+That%E2%80%99s+wh.mp4",
+            "thumbnail_url": "https://dofbk408howyc.cloudfront.net/products/1763298672192_858670.jpg",
+            "title": "PDRN Collagen Boost Serum",
+            "views": "17.3K",
+            "product": ""
+          }
+        },
+        "reel_2": {
+          "type": "reel",
+          "settings": {
+            "video_url": "https://riquenza-product-asset.s3.ap-south-1.amazonaws.com/ugc-videos/cleanser.mp4",
+            "thumbnail_url": "https://dofbk408howyc.cloudfront.net/products/1763671256416_168288.jpg",
+            "title": "Hyaluronic + Collagen Cleanser",
+            "views": "12.5K",
+            "product": ""
+          }
+        },
+        "reel_5": {
+          "type": "reel",
+          "settings": {
+            "video_url": "https://riquenza-product-asset.s3.ap-south-1.amazonaws.com/ugc-videos/After+25%2C+collagen+naturally+declines+every+year%E2%80%94it%E2%80%99s+not+just+marketing%2C+it%E2%80%99s+medically+proven..mp4",
+            "thumbnail_url": "https://dofbk408howyc.cloudfront.net/products/1763285209401_884016.jpg",
+            "title": "PDRN Collagen Boost Moisturiser",
+            "views": "10.2K",
+            "product": ""
+          }
+        },
+        "reel_3": {
+          "type": "reel",
+          "settings": {
+            "video_url": "https://riquenza-product-asset.s3.ap-south-1.amazonaws.com/ugc-videos/lipbutter.mp4",
+            "thumbnail_url": "https://dofbk408howyc.cloudfront.net/products/1763284899965_55915.jpg",
+            "title": "Lip Butter For Dry & Chapped Lips",
+            "views": "11.8K",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "reel_1",
+        "reel_4",
+        "reel_2",
+        "reel_5",
+        "reel_3"
+      ],
+      "settings": {
+        "eyebrow": "As seen on Instagram",
+        "heading": "Watch It. Love It.",
+        "subheading": "Real routines, real results — shop the products everyone's talking about.",
+        "instagram_url": "https://www.instagram.com/riquenzaskincare/"
+      }
+    },
+    "riq_features": {
+      "type": "riq-feature-row",
+      "blocks": {
+        "f1": {
+          "type": "feature",
+          "settings": {
+            "icon_asset": "riq-hero_icons-crueltyfreeicon.webp",
+            "label": "Cruelty Free",
+            "caption": "Never tested on animals"
+          }
+        },
+        "f2": {
+          "type": "feature",
+          "settings": {
+            "icon_asset": "riq-hero_icons-sulphatefreeicon.webp",
+            "label": "Sulphate Free",
+            "caption": "Gentle on skin barrier"
+          }
+        },
+        "f3": {
+          "type": "feature",
+          "settings": {
+            "icon_asset": "riq-hero_icons-parabenicon.webp",
+            "label": "Paraben Free",
+            "caption": "Clean, safe formulations"
+          }
+        },
+        "f4": {
+          "type": "feature",
+          "settings": {
+            "icon_asset": "riq-hero_icons-fdaapprovedicon.webp",
+            "label": "FDA Approved",
+            "caption": "Meets regulatory standards"
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "settings": {
+        "compact": false,
+        "eyebrow": "Our Promise",
+        "heading": "Designed by Science. Desired by Skin.",
+        "subheading": "Every Riquenza formula is crafted with clean, skin-first ingredients — and rigorously tested for safety."
+      }
+    },
+    "riq_reviews": {
+      "type": "riq-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "name": "Pranjali Singh",
+            "title": "Lightweight & Perfect for Daily Use",
+            "description": "I've been using the Cica Aqua Light Sunscreen for a while. It's lightweight, quick-absorbing, and leaves no white cast. Gives a soft, natural glow. A great everyday sunscreen!",
+            "product": "cica-aqua-light-sunscreen-spf-50-pa",
+            "image_url": "https://dofbk408howyc.cloudfront.net/products/1763285545421_388562.jpg",
+            "product_url": "shopify://products/cica-aqua-light-sunscreen-spf-50-pa"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "name": "Muskan Jha",
+            "title": "Skin Feels Firmer and Smoother",
+            "description": "The PDRN Collagen Boost Serum absorbs quickly and makes my skin feel firmer. My texture looks smoother and more even now. Really impressed with the results.",
+            "product": "pdrn-collagen-boost-serum",
+            "image_url": "https://dofbk408howyc.cloudfront.net/products/1763285829348_134158.jpg",
+            "product_url": ""
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "name": "Anchal Yadav",
+            "title": "Very Effective for Dry Lips",
+            "description": "The Lip Butter moisturises deeply and stays on long. It has reduced dryness and improved my lip texture. Great option for dry and chapped lips.",
+            "product": "lip-butter-for-dry-chapped-lips",
+            "image_url": "https://dofbk408howyc.cloudfront.net/products/1763284899965_55915.jpg",
+            "product_url": ""
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "name": "Swati Mishra",
+            "title": "Gentle and Hydrating Cleanser",
+            "description": "The Hyaluronic + Collagen Cleanser is very gentle. It cleans well without stripping moisture. My skin feels soft, fresh, and hydrated after every wash.",
+            "product": "hyaluronic-collagen-cleanser",
+            "image_url": "https://dofbk408howyc.cloudfront.net/products/1763671256416_168288.jpg",
+            "product_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
+      "settings": {
+        "eyebrow": "Loved by our community",
+        "heading": "Feels Good Stories",
+        "subheading": "Honest experiences from real Riquenza customers."
+      }
+    },
+    "riq_essentials": {
+      "type": "riq-find-essentials",
+      "blocks": {
+        "h1": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "fallback_name": "PDRN Collagen Moisturiser",
+            "top_mobile": 28,
+            "left_mobile": 30,
+            "top_desktop": 25,
+            "left_desktop": 40
+          }
+        },
+        "h2": {
+          "type": "hotspot",
+          "settings": {
+            "product": "pdrn-collagen-boost-serum",
+            "fallback_name": "PDRN Collagen Serum",
+            "top_mobile": 45,
+            "left_mobile": 55,
+            "top_desktop": 45,
+            "left_desktop": 53
+          }
+        },
+        "h3": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "fallback_name": "Shea Lip Butter",
+            "top_mobile": 60,
+            "left_mobile": 43,
+            "top_desktop": 61,
+            "left_desktop": 47
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "h2",
+        "h3"
+      ],
+      "settings": {
+        "image_asset": "riq-lpimage.webp",
+        "image_alt": "Find your essentials",
+        "cta_label": "View All Products",
+        "cta_url": "shopify://collections/skin-care"
       }
     }
   },
   "order": [
-    "hero_jVaWmY",
-    "product_list_fa6P9H",
-    "177459279572cffcc6",
-    "collection_list_jn47fJ",
-    "blocks_D6Tp3m",
-    "177459354554aa282a",
-    "17745945883c706e55",
-    "section_K7MPfa",
-    "blocks_iQpcTr"
+    "riq_hero",
+    "riq_products",
+    "riq_combos",
+    "riq_reels",
+    "riq_features",
+    "riq_reviews",
+    "riq_essentials"
   ]
 }

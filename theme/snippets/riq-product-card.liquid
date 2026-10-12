@@ -1,0 +1,96 @@
+{%- comment -%}
+  Product card matching ProductCardV1.
+  Accepts: product, badge_type (most_loved|bestseller|selling_fast)
+{%- endcomment -%}
+{%- liquid
+  assign card_product = product
+  assign variant = card_product.selected_or_first_available_variant
+  assign tagline = card_product.metafields.custom.product_tagline | metafield_text | strip
+  assign subtitle = card_product.metafields.custom.subtitle.value | default: card_product.description | strip_html | truncate: 80
+  assign compare = variant.compare_at_price
+  assign price = variant.price
+  assign discount = 0
+  if compare > price and compare > 0
+    assign discount = compare | minus: price | times: 100.0 | divided_by: compare | round
+  endif
+  assign single = false
+  if card_product.has_only_default_variant or card_product.variants.size == 1
+    assign single = true
+  endif
+  assign badge_text = ''
+  if badge_type == 'most_loved'
+    assign badge_text = 'MOST LOVED'
+  elsif badge_type == 'bestseller'
+    assign badge_text = 'BESTSELLER'
+  elsif badge_type == 'selling_fast'
+    assign badge_text = 'SELLING FAST'
+  endif
+-%}
+<article class="riq-card">
+  <a href="{{ card_product.url }}" class="riq-card__media">
+    {%- if card_product.featured_image -%}
+      <img
+        src="{{ card_product.featured_image | image_url: width: 800 }}"
+        alt="{{ card_product.featured_image.alt | default: card_product.title | escape }}"
+        width="550"
+        height="660"
+        loading="lazy"
+      >
+    {%- endif -%}
+    {%- if badge_text != blank -%}
+      <span class="riq-card__badge riq-card__badge--{{ badge_type }}">
+        {%- if badge_type == 'most_loved' -%}{% render 'riq-icon', name: 'FaHeart', size: '9' %}
+        {%- elsif badge_type == 'bestseller' -%}{% render 'riq-icon', name: 'FaMedal', size: '9', class: 'text-[#E5B757]' %}
+        {%- else -%}{% render 'riq-icon', name: 'FaFire', size: '9' %}
+        {%- endif -%}
+        {{ badge_text }}
+      </span>
+    {%- endif -%}
+  </a>
+  <div class="riq-card__body">
+    <a href="{{ card_product.url }}" class="riq-card__title">{{ card_product.title }}</a>
+    {%- if tagline != blank -%}
+      <p class="riq-card__sub">{{ tagline | escape }}</p>
+    {%- endif -%}
+    {%- if card_product.metafields.reviews.rating.value != blank -%}
+      {%- assign rating_value = card_product.metafields.reviews.rating.value.rating | default: card_product.metafields.reviews.rating.value -%}
+      <div class="riq-card__stars">
+        <div class="riq-card__stars-row">
+          {%- for i in (1..5) -%}
+            <span class="{% if i > rating_value %}empty{% endif %}">{% render 'riq-icon', name: 'AiFillStar', size: '18' %}</span>
+          {%- endfor -%}
+        </div>
+        <span class="riq-card__rating">{{ rating_value | round: 1 }}</span>
+      </div>
+    {%- endif -%}
+    {%- if tagline == blank and subtitle != blank -%}
+      <p class="riq-card__sub">{{ subtitle }}</p>
+    {%- endif -%}
+    <div class="riq-card__price">
+      {%- if single -%}
+        {%- if compare > price -%}
+          <s class="riq-card__compare">{{ compare | money }}</s>
+        {%- endif -%}
+        <span class="riq-card__current">{{ price | money }}</span>
+        {%- if discount > 0 -%}
+          <span class="riq-card__off">{{ discount }}% OFF</span>
+        {%- endif -%}
+      {%- else -%}
+        <p class="riq-card__from">On sale from <span class="riq-card__current">{{ card_product.price | money }}</span></p>
+      {%- endif -%}
+    </div>
+    <div class="riq-card__actions">
+      {%- if single and variant.available -%}
+        <form method="post" action="{{ routes.cart_add_url }}" data-riq-add-to-cart>
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="riq-btn riq-btn--solid riq-btn--full">Add to Cart</button>
+        </form>
+      {%- elsif variant.available -%}
+        <a href="{{ card_product.url }}" class="riq-btn riq-btn--solid riq-btn--full">Select Size</a>
+      {%- else -%}
+        <button type="button" class="riq-btn riq-btn--solid riq-btn--full" disabled>Sold out</button>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

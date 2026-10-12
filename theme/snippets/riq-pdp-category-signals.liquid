@@ -1,0 +1,80 @@
+{%- comment -%}
+  High-converting PDP block from Shopify category metafields (namespace: shopify).
+  Keys match Standard Product Taxonomy handles for skin care / cleansers.
+{%- endcomment -%}
+{%- liquid
+  assign mf_effects = product.metafields.shopify['skin-care-effect']
+  assign mf_skin_type = product.metafields.shopify['suitable-for-skin-type']
+  assign mf_hero_ingredients = product.metafields.shopify['constitutive-ingredients']
+  assign mf_cleanser_type = product.metafields.shopify['cleanser-type']
+  assign mf_features = product.metafields.shopify['skin-care-features']
+  assign mf_form = product.metafields.shopify['product-form']
+  assign mf_rinse = product.metafields.shopify['rinse-requirement']
+  assign mf_cosmetic = product.metafields.shopify['cosmetic-function']
+
+  assign has_effects = false
+  if mf_effects != blank
+    assign has_effects = true
+  endif
+
+  assign has_facts = false
+  if mf_skin_type != blank or mf_cleanser_type != blank or mf_hero_ingredients != blank or mf_features != blank or mf_form != blank or mf_rinse != blank or mf_cosmetic != blank
+    assign has_facts = true
+  endif
+-%}
+
+{%- if has_effects -%}
+  <div class="riq-pdp-benefits">
+    <p class="riq-pdp-benefits__label">Key benefits</p>
+    <div class="riq-pdp-benefits__pills">
+      {% render 'riq-shopify-metafield-pills', metafield: mf_effects, pill_class: 'riq-pill--benefit' %}
+    </div>
+  </div>
+{%- endif -%}
+
+{%- if has_facts -%}
+  <div class="riq-pdp-facts">
+    <p class="riq-pdp-facts__label">Why it works for you</p>
+    <dl class="riq-pdp-facts__list">
+      {%- if mf_skin_type != blank -%}
+        <div class="riq-pdp-facts__row">
+          <dt>Skin type</dt>
+          <dd>{% render 'riq-shopify-metafield-pills', metafield: mf_skin_type %}</dd>
+        </div>
+      {%- endif -%}
+      {%- if mf_cleanser_type != blank -%}
+        <div class="riq-pdp-facts__row">
+          <dt>Formula</dt>
+          <dd>{% render 'riq-shopify-metafield-pills', metafield: mf_cleanser_type %}</dd>
+        </div>
+      {%- endif -%}
+      {%- if mf_hero_ingredients != blank -%}
+        <div class="riq-pdp-facts__row">
+          <dt>Star ingredients</dt>
+          <dd>{% render 'riq-shopify-metafield-pills', metafield: mf_hero_ingredients %}</dd>
+        </div>
+      {%- endif -%}
+      {%- if mf_cosmetic != blank -%}
+        <div class="riq-pdp-facts__row">
+          <dt>Targets</dt>
+          <dd>{% render 'riq-shopify-metafield-pills', metafield: mf_cosmetic %}</dd>
+        </div>
+      {%- endif -%}
+      {%- if mf_features != blank -%}
+        <div class="riq-pdp-facts__row">
+          <dt>Features</dt>
+          <dd>{% render 'riq-shopify-metafield-pills', metafield: mf_features %}</dd>
+        </div>
+      {%- endif -%}
+      {%- if mf_form != blank or mf_rinse != blank -%}
+        <div class="riq-pdp-facts__row">
+          <dt>How it feels</dt>
+          <dd>
+            {% render 'riq-shopify-metafield-pills', metafield: mf_form %}
+            {% render 'riq-shopify-metafield-pills', metafield: mf_rinse %}
+          </dd>
+        </div>
+      {%- endif -%}
+    </dl>
+  </div>
+{%- endif -%}

@@ -1,0 +1,31 @@
+{%- comment -%}
+  Renders category / shopify-namespace metafield values as pills.
+  Accepts list metaobjects, single metaobjects, and list text.
+  @param metafield {metafield} required
+  @param pill_class {string} optional extra class on each pill
+{%- endcomment -%}
+{%- if metafield == blank -%}
+{%- else -%}
+  {%- liquid
+    assign pill_extra = pill_class | default: ''
+    assign mf_type = metafield.type | default: ''
+    assign is_list = false
+    if mf_type contains 'list.'
+      assign is_list = true
+    endif
+  -%}
+  {%- if is_list -%}
+    {%- for item in metafield.value -%}
+      {%- assign pill_label = item.label | default: item | strip -%}
+      {%- if pill_label != blank -%}
+        <span class="riq-pill{% if pill_extra != blank %} {{ pill_extra }}{% endif %}">{{ pill_label }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- assign single = metafield.value -%}
+    {%- assign pill_label = single.label | default: metafield | metafield_text | default: single | strip -%}
+    {%- if pill_label != blank -%}
+      <span class="riq-pill{% if pill_extra != blank %} {{ pill_extra }}{% endif %}">{{ pill_label }}</span>
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}

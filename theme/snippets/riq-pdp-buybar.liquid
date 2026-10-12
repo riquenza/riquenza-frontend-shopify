@@ -1,0 +1,14 @@
+<form method="post" action="{{ routes.cart_add_url }}" data-riq-add-to-cart class="riq-pdp-buybar-form">
+  <input type="hidden" name="id" value="{{ current_variant.id }}" data-riq-variant-input>
+  <div class="riq-buybar">
+    <div class="riq-qty">
+      <button type="button" data-riq-qty="-1" aria-label="Decrease quantity" disabled>−</button>
+      <span data-riq-qty-value>1</span>
+      <input type="hidden" name="quantity" value="1" data-riq-qty-input>
+      <button type="button" data-riq-qty="1" aria-label="Increase quantity">+</button>
+    </div>
+    <button type="submit" class="riq-atc" data-riq-atc {% unless current_variant.available %}disabled{% endunless %}>
+      {%- if current_variant.available -%}Add to Cart{%- else -%}Out of Stock{%- endif -%}
+    </button>
+  </div>
+</form>

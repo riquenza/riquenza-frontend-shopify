@@ -1,0 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Riquenza header",
+  "sections": {
+    "announcement": {
+      "type": "riq-announcement",
+      "blocks": {
+        "o1": { "type": "offer", "settings": { "icon": "gift", "text": "Upto 50% OFF + Free Shipping" } },
+        "o2": { "type": "offer", "settings": { "icon": "clock", "text": "Hurry! Limited Stock Left" } },
+        "o3": { "type": "offer", "settings": { "icon": "card", "text": "Extra 10% OFF on Prepaid Orders" } }
+      },
+      "block_order": ["o1", "o2", "o3"],
+      "settings": {}
+    },
+    "header": {
+      "type": "riq-header",
+      "settings": { "menu": "main-menu" }
+    }
+  },
+  "order": ["announcement", "header"]
+}

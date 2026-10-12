@@ -1,0 +1,68 @@
+<section class="riq-essentials">
+  <h1 class="riq-essentials__title">
+    Nourish, <span>Glow, Protect</span><br>
+    <span style="font-weight:300;font-size:.92em">Tap to Find Your Essentials</span>
+  </h1>
+  <div class="riq-essentials__scene" data-riq-hotspots>
+    <img src="{{ section.settings.image_asset | asset_url }}" alt="{{ section.settings.image_alt | escape }}" width="1600" height="900">
+    {%- for block in section.blocks -%}
+      <button
+        type="button"
+        class="riq-hotspot"
+        data-riq-hotspot
+        data-top-m="{{ block.settings.top_mobile }}"
+        data-left-m="{{ block.settings.left_mobile }}"
+        data-top-d="{{ block.settings.top_desktop }}"
+        data-left-d="{{ block.settings.left_desktop }}"
+        aria-label="Hotspot {{ forloop.index }}"
+        {{ block.shopify_attributes }}
+      >+</button>
+      <a
+        class="riq-hotspot-card"
+        data-riq-hotspot-card
+        {% if block.settings.product != blank %}href="{{ block.settings.product.url }}"{% endif %}
+      >
+        {%- if block.settings.product != blank and block.settings.product.featured_image -%}
+          <img src="{{ block.settings.product.featured_image | image_url: width: 200 }}" alt="{{ block.settings.product.title | escape }}" width="80" height="80">
+          <div><h3>{{ block.settings.product.title }}</h3></div>
+        {%- else -%}
+          <div><h3>{{ block.settings.fallback_name }}</h3></div>
+        {%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+  {%- if section.settings.cta_label != blank -%}
+    <div class="riq-section-cta">
+      {% render 'riq-btn', label: section.settings.cta_label, url: section.settings.cta_url %}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Riquenza find essentials",
+  "tag": "section",
+  "class": "riq-section-essentials",
+  "settings": [
+    { "type": "text", "id": "image_asset", "label": "Image asset", "default": "riq-lpimage.webp" },
+    { "type": "text", "id": "image_alt", "label": "Alt", "default": "Find your essentials" },
+    { "type": "text", "id": "cta_label", "label": "Button", "default": "View All Products" },
+    { "type": "url", "id": "cta_url", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "fallback_name", "label": "Fallback name" },
+        { "type": "range", "id": "top_mobile", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Top (mobile)", "default": 28 },
+        { "type": "range", "id": "left_mobile", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Left (mobile)", "default": 30 },
+        { "type": "range", "id": "top_desktop", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Top (desktop)", "default": 25 },
+        { "type": "range", "id": "left_desktop", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Left (desktop)", "default": 40 }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Riquenza find essentials" }]
+}
+{% endschema %}

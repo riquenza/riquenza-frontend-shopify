@@ -1,0 +1,80 @@
+<div data-riq-drawer="cart" data-riq-cart-section="{{ section.id }}">
+  <div class="riq-overlay" data-riq-close="cart"></div>
+  <aside class="riq-drawer" role="dialog" aria-label="Your cart">
+    <div class="riq-drawer__head">
+      <h2 class="riq-drawer__title">
+        {% render 'riq-icon', name: 'FaShoppingBag', size: '16', class: 'text-[#950b24]' %}
+        Your Cart
+        <span style="font-size:14px;font-family:var(--riq-font-body);font-weight:500;color:rgba(76,67,57,.7)">({{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %})</span>
+      </h2>
+      <button type="button" class="riq-header__icon-btn" data-riq-close="cart" aria-label="Close cart">
+        {% render 'riq-icon', name: 'HiXMark', size: '18' %}
+      </button>
+    </div>
+    {%- if cart.item_count > 0 -%}
+      <div class="riq-drawer__banner" data-riq-rotator data-interval="3500">
+        <span data-riq-rotator-item>Upto 50% OFF + Free Shipping</span>
+        <span data-riq-rotator-item hidden>Hurry! Limited Stock Left</span>
+        <span data-riq-rotator-item hidden>Extra 10% OFF on Prepaid Orders</span>
+      </div>
+    {%- endif -%}
+    <div class="riq-drawer__body">
+      {%- if cart.item_count == 0 -%}
+        <div class="riq-drawer__empty">
+          <div class="riq-drawer__empty-icon">{% render 'riq-icon', name: 'FaShoppingBag', size: '28' %}</div>
+          <h3 style="font-family:var(--riq-font-display);font-size:20px;margin:0">Your cart is empty</h3>
+          <p style="margin:8px 0 0;font-size:14px;color:rgba(76,67,57,.7);font-family:var(--riq-font-body);max-width:260px">Treat your skin to something luxurious. Explore our bestsellers.</p>
+          <a href="{{ collections['skin-care'].url | default: routes.all_products_collection_url }}" class="riq-btn riq-btn--solid" style="margin-top:20px;width:auto;padding:10px 20px" data-riq-close="cart">
+            Continue Shopping {% render 'riq-icon', name: 'FaArrowRight', size: '12' %}
+          </a>
+        </div>
+      {%- else -%}
+        {%- for item in cart.items -%}
+          <div class="riq-line">
+            <a href="{{ item.url }}">{% if item.image %}<img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" width="80" height="80">{% endif %}</a>
+            <div style="flex:1;min-width:0">
+              <p class="riq-line__title">{{ item.product.title }}</p>
+              {%- unless item.product.has_only_default_variant -%}
+                <p class="riq-line__meta">{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                <div class="riq-line__qty">
+                  <button type="button" data-riq-line-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | minus: 1 }}" aria-label="Decrease">−</button>
+                  <span>{{ item.quantity }}</span>
+                  <button type="button" data-riq-line-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | plus: 1 }}" aria-label="Increase">+</button>
+                </div>
+                <div>
+                  {%- if item.original_line_price > item.final_line_price -%}
+                    <s class="riq-card__compare">{{ item.original_line_price | money }}</s>
+                  {%- endif -%}
+                  <strong>{{ item.final_line_price | money }}</strong>
+                </div>
+              </div>
+              <button type="button" data-riq-line-change data-line="{{ forloop.index }}" data-quantity="0" style="font-size:12px;color:var(--riq-burgundy);margin-top:6px;font-family:var(--riq-font-body)">Remove</button>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+    {%- if cart.item_count > 0 -%}
+      <div class="riq-drawer__foot">
+        <div class="riq-summary__row"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+        <p style="font-size:12px;color:rgba(76,67,57,.7);margin:8px 0 12px">FREE shipping on every order across India.</p>
+        <a href="{{ routes.cart_url }}" class="riq-btn riq-btn--solid riq-btn--full" data-riq-close="cart">View cart</a>
+        <a href="{{ routes.checkout_url }}" class="riq-btn riq-btn--full" style="margin-top:8px">Checkout {% render 'riq-icon', name: 'FaLock', size: '12' %}</a>
+        <div class="riq-footer__trust" style="justify-content:center;margin-top:12px">
+          <span>{% render 'riq-icon', name: 'FaLock', size: '11' %} Secure Payment</span>
+          <span>{% render 'riq-icon', name: 'FaTruck', size: '11' %} Assured Delivery</span>
+        </div>
+      </div>
+    {%- endif -%}
+  </aside>
+</div>
+
+{% schema %}
+{
+  "name": "Riquenza cart drawer",
+  "class": "riq-section-cart-drawer",
+  "settings": []
+}
+{% endschema %}

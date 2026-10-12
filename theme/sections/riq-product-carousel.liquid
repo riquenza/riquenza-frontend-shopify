@@ -1,0 +1,71 @@
+{%- liquid
+  assign collection = collections[section.settings.collection]
+  if collection == blank
+    assign collection = collections.all
+  endif
+-%}
+<section class="riq-products">
+  {% render 'riq-section-head',
+    eyebrow: section.settings.eyebrow,
+    heading: section.settings.heading,
+    subheading: section.settings.subheading
+  %}
+  <div class="riq-carousel">
+    <button type="button" class="riq-carousel__ctrl riq-carousel__ctrl--prev" data-riq-scroll="prev" data-target="riq-products-track" aria-label="Previous">{% render 'riq-icon', name: 'IoIosArrowBack', size: '24' %}</button>
+    <button type="button" class="riq-carousel__ctrl riq-carousel__ctrl--next" data-riq-scroll="next" data-target="riq-products-track" aria-label="Next">{% render 'riq-icon', name: 'IoIosArrowForward', size: '24' %}</button>
+    <div class="riq-carousel__track scrollbar-hide" id="riq-products-track" data-riq-scroller>
+      {%- for product in collection.products limit: section.settings.products_to_show -%}
+        {%- liquid
+          assign badge_type = 'selling_fast'
+          if forloop.index0 == 0
+            assign badge_type = 'most_loved'
+          elsif forloop.index0 <= 2
+            assign badge_type = 'bestseller'
+          endif
+        -%}
+        <div class="riq-carousel__item">
+          {% render 'riq-product-card', product: product, badge_type: badge_type %}
+        </div>
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <div class="riq-carousel__item">
+            <article class="riq-card">
+              <div class="riq-card__media">{{ 'product-1' | placeholder_svg_tag }}</div>
+              <div class="riq-card__body"><p class="riq-card__title">Product {{ i }}</p></div>
+            </article>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+    <div class="riq-carousel__dots" data-riq-dots data-target="riq-products-track">
+      {%- for product in collection.products limit: section.settings.products_to_show -%}
+        {%- if forloop.index0 == 0 or forloop.index0 == 2 or forloop.index0 == 4 -%}
+          <span class="riq-carousel__dot" data-riq-dot></span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- if section.settings.cta_label != blank -%}
+    <div class="riq-section-cta">
+      {% render 'riq-btn', label: section.settings.cta_label, url: section.settings.cta_url %}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Riquenza product carousel",
+  "tag": "section",
+  "class": "riq-section-products",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Most Loved" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Bestselling Beauty" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Customer favourites chosen again and again — skin-first formulas with results you can feel." },
+    { "type": "range", "id": "products_to_show", "min": 4, "max": 16, "step": 1, "label": "Products", "default": 8 },
+    { "type": "text", "id": "cta_label", "label": "Button", "default": "View Best Sellers" },
+    { "type": "url", "id": "cta_url", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Riquenza product carousel" }]
+}
+{% endschema %}

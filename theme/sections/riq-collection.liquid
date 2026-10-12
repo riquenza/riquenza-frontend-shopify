@@ -1,0 +1,94 @@
+{%- paginate collection.products by 9 -%}
+<section class="riq-shop">
+  <div class="riq-shop__banner">
+    <picture>
+      <source
+        media="(min-width: 768px)"
+        srcset="{{ 'riq-hero_icons-website_banner.webp' | asset_url }}"
+        width="1920"
+        height="480"
+      >
+      <img
+        src="{{ 'riq-hero_icons-websitebannermobile.webp' | asset_url }}"
+        alt="Experience visibly brighter, firmer, and more lifted skin in just 30 days with Riquenza"
+        width="1080"
+        height="760"
+        fetchpriority="high"
+      >
+    </picture>
+  </div>
+  <div class="riq-shop__inner">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-bottom:40px">
+      <nav class="riq-crumb" style="margin:0">
+        <a href="{{ routes.root_url }}">Home</a>
+        <span>›</span>
+        <span style="color:#111;font-weight:500">{{ collection.title }}</span>
+      </nav>
+      <form action="{{ routes.search_url }}" method="get" style="width:100%;max-width:20rem">
+        <input type="hidden" name="type" value="product">
+        <div style="position:relative">
+          <input class="riq-search__input" type="search" name="q" placeholder="Search for product..." value="{{ search.terms | escape }}">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9ca3af">{% render 'riq-icon', name: 'HiMagnifyingGlass', size: '18' %}</span>
+        </div>
+      </form>
+    </div>
+
+    <div class="riq-shop__toolbar">
+      <button type="button" class="riq-shop__tool" data-riq-toggle="filters">{% render 'riq-icon', name: 'IoFilter', size: '20' %} Filters</button>
+      <div class="riq-sort" style="flex:1">
+        <button type="button" class="riq-shop__tool" data-riq-sort-toggle>{% render 'riq-icon', name: 'TbArrowsUpDown', size: '20' %} <span data-riq-sort-label>Relevance</span></button>
+      </div>
+    </div>
+
+    <div class="riq-shop__layout">
+      <aside class="riq-shop__sidebar">
+        <form>
+          <select name="sort_by" class="riq-search__input" onchange="this.form.submit()" style="height:auto;padding:10px 12px;margin-bottom:16px">
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+            {%- endfor -%}
+          </select>
+        </form>
+        {%- for filter in collection.filters -%}
+          <div style="margin-bottom:24px">
+            <p class="font-playfair" style="font-weight:600;margin:0 0 12px">{{ filter.label }}</p>
+            {%- for value in filter.values limit: 8 -%}
+              <p style="font-size:14px;margin:0 0 8px;color:var(--riq-ink)">{{ value.label }} ({{ value.count }})</p>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </aside>
+
+      <div>
+        <p class="riq-shop__count">Showing {{ paginate.current_offset | plus: 1 }}–{{ paginate.current_offset | plus: collection.products.size }} of {{ paginate.items }} products</p>
+        <ul class="riq-shop__grid">
+          {%- for product in collection.products -%}
+            <li>{% render 'riq-product-card', product: product, badge_type: 'bestseller' %}</li>
+          {%- else -%}
+            <li style="grid-column:1/-1;text-align:center;color:#6b7280">No products found matching your criteria.</li>
+          {%- endfor -%}
+        </ul>
+        {%- if paginate.pages > 1 -%}
+          <nav class="riq-pager">
+            {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">‹</a>{%- endif -%}
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>
+              {%- else -%}<span class="{% if part.title == paginate.current_page %}is-current{% endif %}">{{ part.title }}</span>{%- endif -%}
+            {%- endfor -%}
+            {%- if paginate.next -%}<a href="{{ paginate.next.url }}">›</a>{%- endif -%}
+          </nav>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Riquenza collection",
+  "tag": "section",
+  "class": "riq-section-collection",
+  "settings": []
+}
+{% endschema %}

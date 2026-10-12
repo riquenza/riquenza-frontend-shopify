@@ -1,0 +1,256 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign compare = current_variant.compare_at_price
+  assign price = current_variant.price
+  assign discount = 0
+  assign savings = 0
+  if compare > price
+    assign savings = compare | minus: price
+    assign discount = savings | times: 100.0 | divided_by: compare | round
+  endif
+  assign highlights_metafield = product.metafields.custom.what_it_does
+  assign highlights = highlights_metafield.value
+
+  assign rating_value = 0
+  assign rating_count = 0
+  if product.metafields.reviews.rating.value != blank
+    assign rating_value = product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value
+  endif
+  if product.metafields.reviews.rating_count.value != blank
+    assign rating_count = product.metafields.reviews.rating_count.value
+  endif
+
+  assign show_variants = false
+  unless product.has_only_default_variant
+    if product.variants.size > 1
+      assign show_variants = true
+    endif
+  endunless
+
+  assign is_bestseller = false
+  if product.tags contains 'bestseller' or product.tags contains 'Bestseller'
+    assign is_bestseller = true
+  endif
+
+  assign collection_url = collections['skin-care'].url | default: routes.all_products_collection_url
+-%}
+
+<div class="riq-pdp-page">
+  <nav class="riq-pdp__crumb" aria-label="Breadcrumb">
+    <span>
+      <a href="{{ routes.root_url }}">Home</a>
+      <span aria-hidden="true">&gt;</span>
+      <a href="{{ collection_url }}">Products</a>
+      <span aria-hidden="true">&gt;</span>
+      <span class="riq-pdp__crumb-current">{{ product.title }}</span>
+    </span>
+  </nav>
+
+  <section class="riq-pdp" data-riq-product data-product-id="{{ product.id }}">
+    <div class="riq-pdp__main">
+      <div class="riq-pdp__grid">
+        <div class="riq-pdp__media-col">
+          <div class="riq-pdp-gallery" data-riq-pdp-gallery>
+            <div class="riq-pdp-gallery__thumbs scrollbar-hide" data-riq-pdp-thumbs>
+              {%- for media in product.media -%}
+                <div class="riq-pdp-gallery__thumb-wrap{% if forloop.index > 5 %} riq-pdp-gallery__thumb-wrap--extra{% endif %}">
+                  <button
+                    type="button"
+                    class="riq-pdp-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+                    data-riq-thumb
+                    data-src="{{ media.preview_image | image_url: width: 1200 }}"
+                    aria-label="View image {{ forloop.index }}"
+                  >
+                    <img src="{{ media.preview_image | image_url: width: 160 }}" alt="" width="80" height="80" loading="lazy">
+                  </button>
+                  {%- if forloop.index == 5 and product.media.size > 5 -%}
+                    <span class="riq-pdp-gallery__more" data-riq-pdp-more>+{{ product.media.size | minus: 5 }} more</span>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+            <div
+              class="riq-pdp-gallery__stage"
+              data-riq-pdp-stage
+            >
+              {%- if product.featured_media -%}
+                <img
+                  data-riq-main-image
+                  src="{{ product.featured_media | image_url: width: 1200 }}"
+                  alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                  width="1200"
+                  height="1200"
+                >
+              {%- endif -%}
+              {%- if is_bestseller -%}
+                <span class="riq-pdp-gallery__ribbon" aria-hidden="true"></span>
+              {%- endif -%}
+            </div>
+          </div>
+          <div class="riq-pdp-offers-desktop">
+            {% render 'riq-pdp-offers' %}
+          </div>
+        </div>
+
+        <div class="riq-pdp-info">
+          <div class="riq-pdp-trust">
+            {% render 'riq-icon', name: 'HiSparkles', size: '13', class: 'riq-pdp-trust__spark' %}
+            <p class="riq-pdp-trust__text">
+              <span class="riq-pdp-trust__stars" aria-hidden="true">
+                {%- for i in (1..5) -%}{% render 'riq-icon', name: 'AiFillStar', size: '13' %}{%- endfor -%}
+              </span>
+              Loved by 100,000+ customers across India
+            </p>
+            {% render 'riq-icon', name: 'HiSparkles', size: '13', class: 'riq-pdp-trust__spark' %}
+          </div>
+
+          <h1 class="riq-pdp__title">
+            {{ product.title }}
+            {%- unless product.has_only_default_variant -%}
+              <span class="riq-pdp__title-size" data-riq-variant-title> — {{ current_variant.title }}</span>
+            {%- endunless -%}
+          </h1>
+
+          <div class="riq-pdp-rating">
+            {%- if rating_count > 0 -%}
+              <div class="riq-pdp-rating__link">
+                <span class="riq-pdp-rating__stars">
+                  {%- for i in (1..5) -%}
+                    <span class="{% if i > rating_value %}is-dim{% endif %}">{% render 'riq-icon', name: 'AiFillStar', size: '18' %}</span>
+                  {%- endfor -%}
+                </span>
+                <span class="riq-pdp-rating__value">{{ rating_value | round: 1 }}</span>
+                <span class="riq-pdp-rating__count">{{ rating_count }} verified {% if rating_count == 1 %}review{% else %}reviews{% endif %}</span>
+              </div>
+            {%- else -%}
+              <div class="riq-pdp-rating__empty">
+                <span class="riq-pdp-rating__stars is-dim-all">
+                  {%- for i in (1..5) -%}{% render 'riq-icon', name: 'AiOutlineStar', size: '18' %}{%- endfor -%}
+                </span>
+                <span>Be the first to review</span>
+              </div>
+            {%- endif -%}
+          </div>
+
+          {% render 'riq-pdp-category-signals' %}
+
+          <div class="riq-pdp-pricing" data-riq-pdp-pricing>
+            <div class="riq-pdp-pricing__row">
+              <span class="riq-pdp__price" data-riq-price>{{ price | money }}</span>
+              {%- if compare > price -%}
+                <s class="riq-pdp__compare" data-riq-compare>{{ compare | money }}</s>
+                <span class="riq-pdp__badge" data-riq-discount-badge>{{ discount }}% OFF</span>
+              {%- else -%}
+                <s class="riq-pdp__compare" data-riq-compare hidden></s>
+                <span class="riq-pdp__badge" data-riq-discount-badge hidden></span>
+              {%- endif -%}
+            </div>
+            <div class="riq-pdp__meta">
+              {%- if savings > 0 -%}
+                <span class="riq-pdp__savings" data-riq-savings>You save {{ savings | money }}</span>
+                <span class="riq-pdp__dot" aria-hidden="true">·</span>
+              {%- else -%}
+                <span class="riq-pdp__savings" data-riq-savings hidden></span>
+              {%- endif -%}
+              <span class="riq-pdp__unit" data-riq-unit-price></span>
+              <span class="riq-pdp__dot riq-pdp__dot--tax" aria-hidden="true">·</span>
+              <span>Inclusive of all taxes</span>
+            </div>
+          </div>
+
+          {%- if show_variants -%}
+            <div class="riq-pdp-variants">
+              <p class="riq-pdp-variants__label">Select variant</p>
+              <div class="riq-pdp-variants__grid">
+                {%- for variant in product.variants -%}
+                  {%- liquid
+                    assign v_compare = variant.compare_at_price
+                    assign v_price = variant.price
+                    assign v_discount = v_compare | minus: v_price | times: 100.0 | divided_by: v_compare | round
+                    if v_compare <= v_price or v_compare == 0
+                      assign v_discount = 0
+                    endif
+                  -%}
+                  <button
+                    type="button"
+                    class="riq-variant-card{% if variant.id == current_variant.id %} is-selected{% endif %}{% unless variant.available %} is-sold{% endunless %}"
+                    data-riq-variant-picker
+                    data-variant-id="{{ variant.id }}"
+                    data-variant-title="{{ variant.title | escape }}"
+                    data-price="{{ v_price }}"
+                    data-compare="{{ v_compare }}"
+                    data-available="{{ variant.available }}"
+                    data-image="{% if variant.featured_media %}{{ variant.featured_media | image_url: width: 1200 }}{% elsif product.featured_media %}{{ product.featured_media | image_url: width: 1200 }}{% endif %}"
+                    aria-pressed="{% if variant.id == current_variant.id %}true{% else %}false{% endif %}"
+                  >
+                    <div class="riq-variant-card__head">
+                      <p class="riq-variant-card__size">{{ variant.title }}</p>
+                    </div>
+                    <div class="riq-variant-card__body">
+                      <p class="riq-variant-card__price">{{ v_price | money }}</p>
+                      <p class="riq-variant-card__unit" data-riq-variant-unit></p>
+                      <p class="riq-variant-card__stock">
+                        {%- if variant.available -%}In stock{%- else -%}Out of stock{%- endif -%}
+                      </p>
+                    </div>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if highlights_metafield != blank and highlights != blank -%}
+            <div class="riq-pdp-highlights">
+              <p class="riq-pdp-highlights__label">What it does</p>
+              <ul class="riq-highlights">
+                {%- for item in highlights -%}
+                  {%- assign item_text = item.value | default: item | strip -%}
+                  {%- if item_text != blank -%}
+                    <li>
+                      <span class="riq-check">{% render 'riq-icon', name: 'FaCheck', size: '10' %}</span>
+                      {{ item_text | escape }}
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <div class="riq-pdp__promise">
+            <span class="riq-pdp__promise-icon">{% render 'riq-icon', name: 'FaShieldAlt', size: '16' %}</span>
+            <div>
+              <p class="riq-pdp__promise-title">30-Day Skin Promise</p>
+              <p class="riq-pdp__promise-copy">If you're not satisfied with your experience, we'll work with you to find a solution.</p>
+            </div>
+          </div>
+
+          {% render 'riq-pdp-upsell', product: product %}
+
+          <div class="riq-pdp-mobile-stack">
+            {%- render 'riq-pdp-buybar', current_variant: current_variant -%}
+            <div class="riq-pdp-offers-mobile">{% render 'riq-pdp-offers' %}</div>
+          </div>
+
+          <div class="riq-pdp-buybar-sticky">
+            {%- render 'riq-pdp-buybar', current_variant: current_variant -%}
+          </div>
+        </div>
+      </div>
+
+      {% render 'riq-pdp-accordions' %}
+    </div>
+  </section>
+</div>
+
+<script type="application/json" id="riq-product-variants-json">
+  {{ product.variants | json }}
+</script>
+
+{% schema %}
+{
+  "name": "Riquenza product",
+  "tag": "section",
+  "class": "riq-section-product",
+  "settings": []
+}
+{% endschema %}

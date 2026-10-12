@@ -1,0 +1,89 @@
+<section class="riq-reels">
+  {% render 'riq-section-head',
+    eyebrow: section.settings.eyebrow,
+    heading: section.settings.heading,
+    subheading: section.settings.subheading
+  %}
+  <div class="riq-carousel riq-carousel--reels">
+    <button type="button" class="riq-carousel__ctrl riq-carousel__ctrl--prev" data-riq-scroll="prev" data-target="riq-reels-track" data-step="item" aria-label="Previous reel">{% render 'riq-icon', name: 'IoIosArrowBack', size: '24' %}</button>
+    <button type="button" class="riq-carousel__ctrl riq-carousel__ctrl--next" data-riq-scroll="next" data-target="riq-reels-track" data-step="item" aria-label="Next reel">{% render 'riq-icon', name: 'IoIosArrowForward', size: '24' %}</button>
+    <div class="riq-carousel__track riq-reels__track scrollbar-hide" id="riq-reels-track" data-riq-scroller>
+    {%- for block in section.blocks -%}
+      <div class="riq-carousel__item riq-carousel__item--reel" {{ block.shopify_attributes }}>
+        <article class="riq-reel">
+          <div class="riq-reel__video">
+            {%- if block.settings.video_url != blank -%}
+              <video
+                src="{{ block.settings.video_url }}"
+                poster="{{ block.settings.thumbnail_url }}"
+                muted
+                loop
+                playsinline
+                autoplay
+                preload="metadata"
+              ></video>
+            {%- elsif block.settings.thumbnail_url != blank -%}
+              <img src="{{ block.settings.thumbnail_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+            {%- endif -%}
+            {%- if block.settings.views != blank -%}
+              <span class="riq-reel__views">{% render 'riq-icon', name: 'FaPlay', size: '10' %} {{ block.settings.views }}</span>
+            {%- endif -%}
+          </div>
+          <div class="riq-reel__info">
+            {%- if block.settings.product != blank -%}
+              <a href="{{ block.settings.product.url }}" class="riq-reel__title">{{ block.settings.title | default: block.settings.product.title }}</a>
+              {%- assign v = block.settings.product.selected_or_first_available_variant -%}
+              {%- if v.available -%}
+                <form method="post" action="{{ routes.cart_add_url }}" data-riq-add-to-cart>
+                  <input type="hidden" name="id" value="{{ v.id }}">
+                  <button type="submit" class="riq-btn riq-btn--solid riq-btn--full" style="font-size:12px;padding:8px">Add to Cart</button>
+                </form>
+              {%- endif -%}
+            {%- else -%}
+              <p class="riq-reel__title">{{ block.settings.title }}</p>
+            {%- endif -%}
+          </div>
+        </article>
+      </div>
+    {%- endfor -%}
+    </div>
+    <div class="riq-carousel__dots" data-riq-dots data-target="riq-reels-track">
+      {%- for block in section.blocks -%}
+        <span class="riq-carousel__dot" data-riq-dot{% if forloop.first %} data-active{% endif %}></span>
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- if section.settings.instagram_url != blank -%}
+    <a class="riq-reels__follow" href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">
+      Follow @riquenzaskincare →
+    </a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Riquenza media reel",
+  "tag": "section",
+  "class": "riq-section-reels",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "As seen on Instagram" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Watch It. Love It." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Real routines, real results — shop the products everyone's talking about." },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" }
+  ],
+  "blocks": [
+    {
+      "type": "reel",
+      "name": "Reel",
+      "settings": [
+        { "type": "text", "id": "video_url", "label": "Video URL" },
+        { "type": "text", "id": "thumbnail_url", "label": "Thumbnail URL" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "views", "label": "Views", "default": "15.2K" },
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Riquenza media reel" }]
+}
+{% endschema %}

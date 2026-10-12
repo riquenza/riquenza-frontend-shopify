@@ -1,0 +1,363 @@
+{% doc %}
+  Combo kit card matching the Riquenza listing layout: designed hero image,
+  corner badges, then title, rating, prices, savings, and add to cart.
+  @param product {product} required
+  @param {string} [badge_label] - Corner badge text, defaults to Combo
+  @example
+  {% render 'riq-combo-card', product: product, badge_label: 'Combo' %}
+{% enddoc %}
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign compare = variant.compare_at_price
+  assign price = variant.price
+  assign savings = 0
+  assign discount = 0
+  if compare > price and compare > 0
+    assign savings = compare | minus: price
+    assign discount = savings | times: 100.0 | divided_by: compare | round
+  endif
+
+  assign tagline = product.metafields.custom.product_tagline | metafield_text | strip
+  assign subtitle = product.metafields.custom.subtitle.value
+  if tagline != blank
+    assign subtitle = tagline
+  elsif subtitle == blank
+    assign desc_plain = product.description | strip_html | strip
+    if desc_plain.size > 0 and desc_plain.size <= 90
+      assign subtitle = desc_plain
+    endif
+  endif
+
+  assign badge_text = badge_label | default: 'Combo'
+  assign image_alt = product.featured_image.alt | default: product.title
+
+  assign listing_src = blank
+  assign listing_image = blank
+  assign listing_mf = product.metafields.custom.listing_image.value
+  if listing_mf != blank
+    if listing_mf.url != blank
+      assign listing_image = listing_mf
+    else
+      assign listing_src = listing_mf
+    endif
+  endif
+  if listing_image == blank and listing_src == blank
+    case product.handle
+      when 'daylight-glow-kit'
+        assign listing_src = 'https://dofbk408howyc.cloudfront.net/products/1787646673770_359006.webp'
+      when 'night-glow-ritual-kit'
+        assign listing_src = 'https://dofbk408howyc.cloudfront.net/products/1787653677277_775877.webp'
+      when 'radiance-revival-kit'
+        assign listing_src = 'https://dofbk408howyc.cloudfront.net/products/1789021673978_502127.webp'
+      when 'ageless-radiance-kit'
+        assign listing_src = 'https://dofbk408howyc.cloudfront.net/products/1787572853780_536857.webp'
+      when 'fundamental-skin-ritual-kit'
+        assign listing_src = 'https://dofbk408howyc.cloudfront.net/products/1787670546723_757496.webp'
+      when 'uv-care-kit'
+        assign listing_src = 'https://dofbk408howyc.cloudfront.net/products/1787670831923_625503.webp'
+    endcase
+  endif
+  if listing_image == blank and listing_src == blank
+    assign listing_image = product.featured_image | default: product.featured_media.preview_image
+  endif
+
+  assign rating_value = 0
+  assign rating_count = 0
+  if product.metafields.reviews.rating.value != blank
+    assign rating_value = product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value
+  elsif product.metafields.custom.average_rating.value != blank
+    assign rating_value = product.metafields.custom.average_rating.value
+  endif
+  if product.metafields.reviews.rating_count.value != blank
+    assign rating_count = product.metafields.reviews.rating_count.value
+  elsif product.metafields.custom.review_count.value != blank
+    assign rating_count = product.metafields.custom.review_count.value
+  endif
+  if rating_count == 0
+    case product.handle
+      when 'daylight-glow-kit'
+        assign rating_value = 4.9
+        assign rating_count = 30
+      when 'night-glow-ritual-kit'
+        assign rating_value = 4.8
+        assign rating_count = 38
+      when 'fundamental-skin-ritual-kit'
+        assign rating_value = 4.8
+        assign rating_count = 59
+      when 'uv-care-kit'
+        assign rating_value = 4.8
+        assign rating_count = 33
+      when 'ageless-radiance-kit'
+        assign rating_value = 4.9
+        assign rating_count = 92
+    endcase
+  endif
+-%}
+<article class="riq-combo riq-combo--kit">
+  <a href="{{ product.url }}" class="riq-combo__media">
+    {%- if listing_image != blank -%}
+      {{
+        listing_image
+        | image_url: width: 900
+        | image_tag: loading: 'lazy', widths: '320, 480, 640, 900', sizes: '(min-width: 768px) 328px, 72vw', alt: image_alt
+      }}
+    {%- elsif listing_src != blank -%}
+      <img
+        src="{{ listing_src }}"
+        alt="{{ image_alt | escape }}"
+        width="600"
+        height="600"
+        loading="lazy"
+        decoding="async"
+      >
+    {%- endif -%}
+    {%- if discount > 0 -%}
+      <span class="riq-combo__off">
+        {% render 'riq-icon', name: 'FaTag', size: '8' %}
+        <span>{{ discount }}% OFF</span>
+      </span>
+    {%- endif -%}
+    {%- if badge_text != blank -%}
+      <span class="riq-combo__tag">{{ badge_text }}</span>
+    {%- endif -%}
+  </a>
+  <div class="riq-combo__body">
+    <a href="{{ product.url }}" class="riq-combo__title">{{ product.title }}</a>
+    {%- if subtitle != blank -%}
+      <p class="riq-combo__sub">{{ subtitle | escape }}</p>
+    {%- endif -%}
+    {%- if rating_count > 0 -%}
+      <div class="riq-combo__rating">
+        <span class="riq-combo__stars" aria-hidden="true">
+          {%- for i in (1..5) -%}
+            <span class="{% if i > rating_value %}is-dim{% endif %}">{% render 'riq-icon', name: 'AiFillStar', size: '13' %}</span>
+          {%- endfor -%}
+        </span>
+        <span class="riq-combo__rating-value">{{ rating_value | round: 1 }}</span>
+        <span class="riq-combo__rating-count">({{ rating_count }})</span>
+      </div>
+    {%- endif -%}
+    <div class="riq-combo__price">
+      {%- if compare > price -%}
+        <s class="riq-combo__compare">₹{{ compare | divided_by: 100 }}</s>
+      {%- endif -%}
+      <span class="riq-combo__current">₹{{ price | divided_by: 100 }}</span>
+      {%- if discount > 0 -%}
+        <span class="riq-combo__save-badge">{{ discount }}% OFF</span>
+      {%- endif -%}
+    </div>
+    {%- if savings > 0 -%}
+      <p class="riq-combo__savings">You save ₹{{ savings | divided_by: 100 }}</p>
+    {%- endif -%}
+    {%- if variant.available -%}
+      <form method="post" action="{{ routes.cart_add_url }}" data-riq-add-to-cart class="riq-combo__form">
+        <input type="hidden" name="id" value="{{ variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="riq-combo__atc">
+          {% render 'riq-icon', name: 'HiOutlineShoppingBag', size: '15' %}
+          <span>Add to Cart</span>
+          {% render 'riq-icon', name: 'FaArrowRight', size: '11' %}
+        </button>
+      </form>
+    {%- else -%}
+      <button type="button" class="riq-combo__atc" disabled>Sold out</button>
+    {%- endif -%}
+  </div>
+</article>
+
+{% stylesheet %}
+  .riq-combo.riq-combo--kit {
+    background: #fff;
+    border: 1px solid #4c433920;
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px #29262314;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    text-decoration: none;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .riq-combo.riq-combo--kit:hover {
+    box-shadow: 0 12px 28px -16px #29262359;
+    transform: translateY(-2px);
+  }
+  .riq-combo.riq-combo--kit .riq-combo__media {
+    aspect-ratio: 1 / 1;
+    background: #6e081a;
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    width: 100%;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__media img {
+    display: block;
+    height: 100%;
+    inset: 0;
+    object-fit: cover;
+    position: absolute;
+    transition: transform 0.5s ease;
+    width: 100%;
+  }
+  .riq-combo.riq-combo--kit:hover .riq-combo__media img {
+    transform: scale(1.03);
+  }
+  .riq-combo.riq-combo--kit .riq-combo__off,
+  .riq-combo.riq-combo--kit .riq-combo__tag {
+    height: auto;
+    line-height: 1;
+    position: absolute;
+    top: 0.625rem;
+    width: auto;
+    z-index: 2;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__off {
+    align-items: center;
+    background: #950b24;
+    border-radius: 0.375rem;
+    bottom: auto;
+    box-shadow: 0 1px 2px #00000026;
+    color: #fff;
+    display: inline-flex;
+    font-family: var(--riq-font-body);
+    font-size: 0.65625rem;
+    font-weight: 600;
+    gap: 0.25rem;
+    left: 0.625rem;
+    padding: 0.2rem 0.5rem;
+    right: auto;
+    text-transform: none;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__tag {
+    background: #fffffff0;
+    border: 1px solid #950b2426;
+    border-radius: 9999px;
+    bottom: auto;
+    color: #950b24;
+    font-family: var(--riq-font-body);
+    font-size: 0.59375rem;
+    font-weight: 600;
+    left: auto;
+    letter-spacing: 0.14em;
+    padding: 0.2rem 0.5rem;
+    right: 0.625rem;
+    text-transform: uppercase;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0;
+    padding: 0.75rem 1rem 1rem;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__title {
+    color: #000;
+    display: block;
+    font-family: var(--riq-font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    min-height: 2.5rem;
+    text-decoration: none;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__title:hover {
+    color: #950b24;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__sub {
+    color: #4c4339bf;
+    font-family: var(--riq-font-body);
+    font-size: 0.78125rem;
+    line-height: 1.35;
+    margin: 0.25rem 0 0;
+    min-height: 2rem;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__rating {
+    align-items: center;
+    display: flex;
+    font-family: var(--riq-font-body);
+    gap: 0.375rem;
+    margin-top: 0.375rem;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__stars {
+    color: #e5b757;
+    display: inline-flex;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__stars .is-dim {
+    opacity: 0.28;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__rating-value {
+    color: #000;
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__rating-count {
+    color: #4c4339bf;
+    font-size: 0.6875rem;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__price {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.125rem 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__compare {
+    color: #4c433980;
+    font-family: var(--riq-font-body);
+    font-size: 0.78125rem;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__current {
+    color: #000;
+    font-family: var(--riq-font-body);
+    font-size: 1.0625rem;
+    font-weight: 600;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__save-badge {
+    background: #0f7a2e1a;
+    border-radius: 0.25rem;
+    color: #0f7a2e;
+    font-family: var(--riq-font-body);
+    font-size: 0.65625rem;
+    font-weight: 700;
+    padding: 0.125rem 0.375rem;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__savings {
+    color: #0f7a2e;
+    font-family: var(--riq-font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    margin: 0.25rem 0 0;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__form {
+    margin: 0.75rem 0 0;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__atc {
+    align-items: center;
+    background: #950b24;
+    border: none;
+    border-radius: 0.75rem;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: var(--riq-font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    gap: 0.375rem;
+    justify-content: center;
+    margin-top: auto;
+    padding: 0.625rem 1rem;
+    transition: background 0.2s ease;
+    width: 100%;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__atc:hover:not(:disabled) {
+    background: #ae0a28;
+  }
+  .riq-combo.riq-combo--kit .riq-combo__atc:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+{% endstylesheet %}

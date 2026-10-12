@@ -1,0 +1,39 @@
+<div data-riq-drawer="search">
+  <div class="riq-overlay" data-riq-close="search"></div>
+  <aside class="riq-drawer riq-drawer--search" role="dialog" aria-label="Search">
+    <div class="riq-drawer__head">
+      <h2 class="riq-drawer__title">{% render 'riq-icon', name: 'HiMagnifyingGlass', size: '18' %} Search</h2>
+      <button type="button" class="riq-header__icon-btn" data-riq-close="search" aria-label="Close search">
+        {% render 'riq-icon', name: 'HiXMark', size: '18' %}
+      </button>
+    </div>
+    <form class="riq-search__form" action="{{ routes.search_url }}" method="get" role="search">
+      <input type="hidden" name="type" value="product">
+      <div style="position:relative">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9ca3af">{% render 'riq-icon', name: 'HiMagnifyingGlass', size: '18' %}</span>
+        <input
+          class="riq-search__input"
+          type="search"
+          name="q"
+          placeholder="Search for product..."
+          data-riq-predictive-search
+          data-target="riq-search-results"
+          data-section="riq-predictive-search"
+          data-riq-autofocus
+          autocomplete="off"
+        >
+      </div>
+    </form>
+    <div class="riq-drawer__body" id="riq-search-results">
+      <p style="padding:8px 4px;color:rgba(76,67,57,.7);font-size:14px">Start typing to find products.</p>
+    </div>
+  </aside>
+</div>
+
+{% schema %}
+{
+  "name": "Riquenza search drawer",
+  "class": "riq-section-search-drawer",
+  "settings": []
+}
+{% endschema %}

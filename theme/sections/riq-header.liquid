@@ -1,0 +1,97 @@
+{%- liquid
+  assign menu = section.settings.menu
+  assign logo = 'riq-logo2.svg' | asset_url
+-%}
+<div class="riq-header-wrap">
+  <header class="riq-header" data-riq-header>
+    <div class="riq-header__inner">
+      <div class="riq-header__mobile">
+        <div class="riq-header__mobile-start">
+          <button type="button" class="riq-header__icon-btn" data-riq-toggle="menu" aria-label="Toggle menu" aria-expanded="false">
+            <img src="{{ 'riq-hamburgericon.svg' | asset_url }}" alt="" width="28" height="28">
+          </button>
+        </div>
+        <div class="riq-header__mobile-center">
+          <a href="{{ routes.root_url }}">
+            <img class="riq-header__logo-m" src="{{ logo }}" alt="{{ shop.name }}" width="120" height="36">
+          </a>
+        </div>
+        <div class="riq-header__mobile-end">
+          <button type="button" class="riq-header__icon-btn" data-riq-open="search" aria-label="Search products">
+            {% render 'riq-icon', name: 'HiOutlineMagnifyingGlass', size: '20' %}
+          </button>
+          <button type="button" class="riq-header__icon-btn" data-riq-open="cart" aria-label="Cart" style="position:relative">
+            {% render 'riq-icon', name: 'HiOutlineShoppingBag', size: '20' %}
+            <span class="riq-cart-count" data-riq-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="riq-header__desktop">
+        <a href="{{ routes.root_url }}">
+          <img class="riq-header__logo-d" src="{{ logo }}" alt="{{ shop.name }}" width="183" height="48">
+        </a>
+        <nav class="riq-header__nav">
+          {%- if menu != blank -%}
+            {%- for link in menu.links -%}
+              <a href="{{ link.url }}" class="riq-header__link{% if link.active %} is-active{% endif %}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.root_url }}" class="riq-header__link{% if request.page_type == 'index' %} is-active{% endif %}">Home</a>
+            <a href="{{ routes.all_products_collection_url }}" class="riq-header__link">All Products</a>
+            <a href="{{ collections['skin-care'].url | default: routes.all_products_collection_url }}" class="riq-header__link">Skin Care</a>
+            <a href="{{ collections['best-sellers'].url | default: routes.all_products_collection_url }}" class="riq-header__link">Best Sellers</a>
+            <a href="{{ collections['combos'].url | default: routes.all_products_collection_url }}" class="riq-header__link">Combos</a>
+          {%- endif -%}
+        </nav>
+        <div class="riq-header__actions">
+          <button type="button" class="riq-header__icon-btn" data-riq-open="search" aria-label="Search products">
+            {% render 'riq-icon', name: 'HiOutlineMagnifyingGlass', size: '22' %}
+          </button>
+          <a href="{{ routes.account_url }}" class="riq-header__icon-btn" aria-label="Account">
+            {% render 'riq-icon', name: 'FaRegUser', size: '18' %}
+          </a>
+          <button type="button" class="riq-header__icon-btn" data-riq-open="cart" aria-label="Cart" style="position:relative">
+            {% render 'riq-icon', name: 'HiOutlineShoppingBag', size: '22' %}
+            <span class="riq-cart-count" data-riq-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="riq-header__drawer" data-riq-drawer="menu" data-riq-no-lock>
+        <nav>
+          {%- if menu != blank -%}
+            {%- for link in menu.links -%}
+              <a href="{{ link.url }}" class="riq-header__drawer-link{% if link.active %} is-active{% endif %}" data-riq-close="menu">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.root_url }}" class="riq-header__drawer-link" data-riq-close="menu">Home</a>
+            <a href="{{ routes.all_products_collection_url }}" class="riq-header__drawer-link" data-riq-close="menu">All Products</a>
+            <a href="{{ collections['skin-care'].url | default: routes.all_products_collection_url }}" class="riq-header__drawer-link" data-riq-close="menu">Skin Care</a>
+            <a href="{{ collections['best-sellers'].url | default: routes.all_products_collection_url }}" class="riq-header__drawer-link" data-riq-close="menu">Best Sellers</a>
+            <a href="{{ collections['combos'].url | default: routes.all_products_collection_url }}" class="riq-header__drawer-link" data-riq-close="menu">Combos</a>
+          {%- endif -%}
+          <div style="padding-top:12px;margin-top:8px;border-top:1px solid var(--riq-border)">
+            {%- if customer -%}
+              <a href="{{ routes.account_url }}" class="riq-header__drawer-link" data-riq-close="menu">Profile</a>
+              <a href="{{ routes.account_url }}" class="riq-header__drawer-link" data-riq-close="menu">Orders</a>
+            {%- else -%}
+              <a href="{{ routes.account_login_url }}" class="riq-btn riq-btn--solid riq-btn--full" data-riq-close="menu" style="margin:8px 20px;width:calc(100% - 40px)">Login</a>
+            {%- endif -%}
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+</div>
+
+{% schema %}
+{
+  "name": "Riquenza header",
+  "class": "riq-section-header",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

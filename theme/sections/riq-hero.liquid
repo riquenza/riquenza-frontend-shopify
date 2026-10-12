@@ -1,0 +1,89 @@
+<section class="riq-hero">
+  <div class="riq-hero__track scrollbar-hide" id="riq-hero-track" data-riq-scroller data-loop data-autoplay="{{ section.settings.autoplay_delay }}">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign mobile = block.settings.mobile_asset
+        assign desktop = block.settings.desktop_asset
+      -%}
+      <div class="riq-hero__slide" {{ block.shopify_attributes }}>
+        {%- if block.settings.link != blank -%}
+          <a class="riq-hero__link" href="{{ block.settings.link }}">
+        {%- else -%}
+          <div class="riq-hero__link">
+        {%- endif -%}
+          {%- if desktop != blank and mobile != blank -%}
+            <picture>
+              <source
+                media="(min-width: 768px)"
+                srcset="{{ desktop | asset_url }}"
+                width="{{ block.settings.desktop_width | default: 1920 }}"
+                height="{{ block.settings.desktop_height | default: 640 }}"
+              >
+              <img
+                class="riq-hero__img"
+                src="{{ mobile | asset_url }}"
+                alt="{{ block.settings.alt | escape }}"
+                width="750"
+                height="1000"
+                {% if forloop.first %}fetchpriority="high" loading="eager"{% else %}loading="lazy"{% endif %}
+              >
+            </picture>
+          {%- elsif desktop != blank -%}
+            <img
+              class="riq-hero__img"
+              src="{{ desktop | asset_url }}"
+              alt="{{ block.settings.alt | escape }}"
+              width="{{ block.settings.desktop_width | default: 1920 }}"
+              height="{{ block.settings.desktop_height | default: 640 }}"
+              {% if forloop.first %}fetchpriority="high" loading="eager"{% else %}loading="lazy"{% endif %}
+            >
+          {%- elsif mobile != blank -%}
+            <img
+              class="riq-hero__img"
+              src="{{ mobile | asset_url }}"
+              alt="{{ block.settings.alt | escape }}"
+              width="750"
+              height="1000"
+              {% if forloop.first %}fetchpriority="high" loading="eager"{% else %}loading="lazy"{% endif %}
+            >
+          {%- endif -%}
+        {%- if block.settings.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+  {%- if section.blocks.size > 1 -%}
+    <button type="button" class="riq-hero__nav riq-hero__nav--prev" data-riq-scroll="prev" data-target="riq-hero-track" data-step="page" aria-label="Previous">{% render 'riq-icon', name: 'IoIosArrowBack', size: '20' %}</button>
+    <button type="button" class="riq-hero__nav riq-hero__nav--next" data-riq-scroll="next" data-target="riq-hero-track" data-step="page" aria-label="Next">{% render 'riq-icon', name: 'IoIosArrowForward', size: '20' %}</button>
+    <div class="riq-hero__dots" data-riq-dots data-target="riq-hero-track">
+      {%- for block in section.blocks -%}
+        <button type="button" class="riq-hero__dot" data-riq-dot aria-label="Slide {{ forloop.index }}"></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Riquenza hero",
+  "tag": "section",
+  "class": "riq-section-hero",
+  "settings": [
+    { "type": "range", "id": "autoplay_delay", "min": 3000, "max": 8000, "step": 500, "unit": "ms", "label": "Autoplay", "default": 4000 }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "text", "id": "mobile_asset", "label": "Mobile asset filename" },
+        { "type": "text", "id": "desktop_asset", "label": "Desktop asset filename" },
+        { "type": "text", "id": "alt", "label": "Alt text", "default": "Hero banner" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "number", "id": "desktop_width", "label": "Desktop width", "default": 1920 },
+        { "type": "number", "id": "desktop_height", "label": "Desktop height", "default": 640 }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Riquenza hero" }]
+}
+{% endschema %}
